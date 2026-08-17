@@ -811,6 +811,19 @@ local function addLogo(parent)
     addCorner(logo, 10)
     return logo
 end
+local function addSettingsBackground(parent)
+    local bg = Instance.new("ImageLabel")
+    bg.Name = "SettingsBackground"
+    bg.Size = UDim2.new(1, 0, 1, 0)
+    bg.Position = UDim2.fromOffset(0, 0)
+    bg.BackgroundTransparency = 1
+    bg.Image = ASSET_ID
+    bg.ScaleType = Enum.ScaleType.Fit
+    bg.ImageTransparency = 0.3
+    bg.ZIndex = 0
+    bg.Parent = parent
+    return bg
+end
 local function addMinimizeButton(header, window, header_height, full_height, hiddenParts)
     local button = Instance.new("TextButton")
     button.Name = "Minimize"
@@ -929,7 +942,7 @@ SniperWindow.Position = UDim2.new(0.5,
 0, 0.5, 0)
 SniperWindow.BackgroundColor3 = COLORS.Window SniperWindow.BorderSizePixel = 0 SniperWindow.ClipsDescendants = true SniperWindow.Parent = SniperGUI addCorner(SniperWindow,
 16)
-addStroke(SniperWindow, COLORS.Border, 1, 0.35)
+addStroke(SniperWindow, COLORS.Border, 1, 0.15)
 local SniperScale = Instance.new("UIScale")
 SniperScale.Name = "InterfaceScale" SniperScale.Scale = 0.92 SniperScale.Parent = SniperWindow
 local viewportConnection
@@ -968,13 +981,12 @@ local TopLine = Instance.new("Frame")
 TopLine.Name = "TopLine" TopLine.Size = UDim2.new(1,
 - 40, 0, 2)
 TopLine.Position = UDim2.fromOffset(20, 10)
-TopLine.BackgroundColor3 = COLORS.Border TopLine.BackgroundTransparency = 0.6 TopLine.BorderSizePixel = 0 TopLine.Parent = SniperHeader addCorner(TopLine,
+TopLine.BackgroundColor3 = COLORS.Border TopLine.BackgroundTransparency = 0.3 TopLine.BorderSizePixel = 0 TopLine.Parent = SniperHeader addCorner(TopLine,
 1)
-addLogo(SniperHeader)
-makeLabel(SniperHeader, "Title", "RXZ CODE Sniper", UDim2.fromOffset(200, 30), UDim2.fromOffset(60,
+makeLabel(SniperHeader, "Title", "RXZ CODE Sniper", UDim2.fromOffset(220, 30), UDim2.fromOffset(20,
 14), 16, COLORS.White, Enum.Font.GothamBold)
 makeLabel(SniperHeader, "Subtitle", "Code Sniper",
-UDim2.fromOffset(200, 20), UDim2.fromOffset(60, 40), 11, COLORS.Dim, Enum.Font.GothamMedium)
+UDim2.fromOffset(220, 20), UDim2.fromOffset(20, 40), 11, COLORS.Dim, Enum.Font.GothamMedium)
 local SniperToggleButton = Instance.new("TextButton")
 SniperToggleButton.Name = "MainToggle" SniperToggleButton.Size = UDim2.fromOffset(70,
 30)
@@ -989,17 +1001,18 @@ local SniperHeaderDivider = Instance.new("Frame")
 SniperHeaderDivider.Name = "HeaderDivider" SniperHeaderDivider.Size = UDim2.new(1,
 - 40, 0, 1)
 SniperHeaderDivider.Position = UDim2.fromOffset(20, 66)
-SniperHeaderDivider.BackgroundColor3 = COLORS.Border SniperHeaderDivider.BackgroundTransparency = 0.7 SniperHeaderDivider.BorderSizePixel = 0 SniperHeaderDivider.Parent = SniperHeader
+SniperHeaderDivider.BackgroundColor3 = COLORS.Border SniperHeaderDivider.BackgroundTransparency = 0.4 SniperHeaderDivider.BorderSizePixel = 0 SniperHeaderDivider.Parent = SniperHeader
 local SniperSettings = Instance.new("Frame")
 SniperSettings.Name = "Settings" SniperSettings.Size = UDim2.new(1,
 - 20, 0, 110)
 SniperSettings.Position = UDim2.fromOffset(10, 75)
 SniperSettings.BackgroundTransparency = 1 SniperSettings.ZIndex = 3 SniperSettings.Parent = SniperWindow
+addSettingsBackground(SniperSettings)
 local function makeCard(name, position, size)
     local card = Instance.new("Frame")
-    card.Name = name card.Position = position card.Size = size card.BackgroundColor3 = COLORS.Row card.BackgroundTransparency = 0.4 card.BorderSizePixel = 0 card.Parent = SniperSettings addCorner(card,
+    card.Name = name card.Position = position card.Size = size card.BackgroundColor3 = COLORS.Row card.BackgroundTransparency = 0 card.BorderSizePixel = 0 card.Parent = SniperSettings addCorner(card,
     10)
-    addStroke(card, COLORS.Border, 1, 0.5)
+    addStroke(card, COLORS.Border, 1, 0.25)
     return card
 end
 local AutoCard = makeCard("AutoSubmit", UDim2.fromOffset(0, 0), UDim2.fromOffset(290, 42))
@@ -1052,7 +1065,7 @@ local SniperBottomBar = Instance.new("Frame")
 SniperBottomBar.Name = "BottomBar" SniperBottomBar.Size = UDim2.new(1,
 0, 0, 28)
 SniperBottomBar.Position = UDim2.new(0, 0, 1, - 28)
-SniperBottomBar.BackgroundColor3 = COLORS.Row SniperBottomBar.BackgroundTransparency = 0.6 SniperBottomBar.BorderSizePixel = 0 SniperBottomBar.Parent = SniperWindow addCorner(SniperBottomBar,
+SniperBottomBar.BackgroundColor3 = COLORS.Row SniperBottomBar.BackgroundTransparency = 0 SniperBottomBar.BorderSizePixel = 0 SniperBottomBar.Parent = SniperWindow addCorner(SniperBottomBar,
 16)
 SniperBottomBar.ClipsDescendants = true
 local SniperMinimizeButton = addMinimizeButton(SniperHeader, SniperWindow, 70, 210, {
@@ -1142,7 +1155,7 @@ RiddleWindow.Position = UDim2.new(0.5,
 - 170, 0.5, 0)
 RiddleWindow.BackgroundColor3 = COLORS.Window RiddleWindow.BorderSizePixel = 0 RiddleWindow.ClipsDescendants = true RiddleWindow.Parent = RiddleGUI addCorner(RiddleWindow,
 16)
-addStroke(RiddleWindow, COLORS.Border, 1, 0.35)
+addStroke(RiddleWindow, COLORS.Border, 1, 0.15)
 local RiddleScale = Instance.new("UIScale")
 RiddleScale.Name = "InterfaceScale" RiddleScale.Scale = 0.92 RiddleScale.Parent = RiddleWindow
 local function updateRiddleScale()
@@ -1181,13 +1194,12 @@ local RiddleTopLine = Instance.new("Frame")
 RiddleTopLine.Name = "TopLine" RiddleTopLine.Size = UDim2.new(1,
 - 40, 0, 2)
 RiddleTopLine.Position = UDim2.fromOffset(20, 10)
-RiddleTopLine.BackgroundColor3 = COLORS.Border RiddleTopLine.BackgroundTransparency = 0.6 RiddleTopLine.BorderSizePixel = 0 RiddleTopLine.Parent = RiddleHeader addCorner(RiddleTopLine,
+RiddleTopLine.BackgroundColor3 = COLORS.Border RiddleTopLine.BackgroundTransparency = 0.3 RiddleTopLine.BorderSizePixel = 0 RiddleTopLine.Parent = RiddleHeader addCorner(RiddleTopLine,
 1)
-addLogo(RiddleHeader)
-makeLabel(RiddleHeader, "Title", "RXZ CODE Sniper", UDim2.fromOffset(200, 30), UDim2.fromOffset(60,
+makeLabel(RiddleHeader, "Title", "RXZ CODE Sniper", UDim2.fromOffset(220, 30), UDim2.fromOffset(20,
 14), 16, COLORS.White, Enum.Font.GothamBold)
 makeLabel(RiddleHeader, "Subtitle", "Riddle Solver",
-UDim2.fromOffset(200, 20), UDim2.fromOffset(60, 40), 11, COLORS.Dim, Enum.Font.GothamMedium)
+UDim2.fromOffset(220, 20), UDim2.fromOffset(20, 40), 11, COLORS.Dim, Enum.Font.GothamMedium)
 local RiddleToggleButton = Instance.new("TextButton")
 RiddleToggleButton.Name = "MainToggle" RiddleToggleButton.Size = UDim2.fromOffset(70,
 30)
@@ -1202,19 +1214,20 @@ local RiddleHeaderDivider = Instance.new("Frame")
 RiddleHeaderDivider.Name = "HeaderDivider" RiddleHeaderDivider.Size = UDim2.new(1,
 - 40, 0, 1)
 RiddleHeaderDivider.Position = UDim2.fromOffset(20, 66)
-RiddleHeaderDivider.BackgroundColor3 = COLORS.Border RiddleHeaderDivider.BackgroundTransparency = 0.7 RiddleHeaderDivider.BorderSizePixel = 0 RiddleHeaderDivider.Parent = RiddleHeader
+RiddleHeaderDivider.BackgroundColor3 = COLORS.Border RiddleHeaderDivider.BackgroundTransparency = 0.4 RiddleHeaderDivider.BorderSizePixel = 0 RiddleHeaderDivider.Parent = RiddleHeader
 local RiddleSettings = Instance.new("Frame")
 RiddleSettings.Name = "Settings" RiddleSettings.Size = UDim2.new(1,
 - 20, 0, 55)
 RiddleSettings.Position = UDim2.fromOffset(10, 75)
 RiddleSettings.BackgroundTransparency = 1 RiddleSettings.ZIndex = 3 RiddleSettings.Parent = RiddleWindow
+addSettingsBackground(RiddleSettings)
 local SolvedCard = Instance.new("Frame")
 SolvedCard.Name = "SolvedCard" SolvedCard.Position = UDim2.fromOffset(0,
 0)
 SolvedCard.Size = UDim2.fromOffset(280, 42)
-SolvedCard.BackgroundColor3 = COLORS.Row SolvedCard.BackgroundTransparency = 0.4 SolvedCard.BorderSizePixel = 0 SolvedCard.Parent = RiddleSettings addCorner(SolvedCard,
+SolvedCard.BackgroundColor3 = COLORS.Row SolvedCard.BackgroundTransparency = 0 SolvedCard.BorderSizePixel = 0 SolvedCard.Parent = RiddleSettings addCorner(SolvedCard,
 10)
-addStroke(SolvedCard, COLORS.Border, 1, 0.5)
+addStroke(SolvedCard, COLORS.Border, 1, 0.25)
 makeLabel(SolvedCard, "Title", "Solved",
 UDim2.fromOffset(150, 42), UDim2.fromOffset(15, 0), 13, COLORS.Text, Enum.Font.GothamMedium)
 local SolvedCount = Instance.new("TextLabel")
@@ -1237,7 +1250,7 @@ RiddleConsole.BackgroundColor3 = COLORS.Log RiddleConsole.BorderSizePixel = 0 Ri
 0, 0, 0)
 RiddleConsole.AutomaticCanvasSize = Enum.AutomaticSize.None RiddleConsole.ScrollBarThickness = 6 RiddleConsole.ScrollBarImageColor3 = COLORS.Dim RiddleConsole.ZIndex = 3 RiddleConsole.Parent = RiddleWindow addCorner(RiddleConsole,
 9)
-addStroke(RiddleConsole, COLORS.Border, 1, 0.88)
+addStroke(RiddleConsole, COLORS.Border, 1, 0.2)
 local RiddleConsoleOutput = Instance.new("TextLabel")
 RiddleConsoleOutput.Name = "ConsoleOutput" RiddleConsoleOutput.Size = UDim2.new(1,
 - 18, 0, 180)
@@ -1287,7 +1300,7 @@ local RiddleBottomBar = Instance.new("Frame")
 RiddleBottomBar.Name = "BottomBar" RiddleBottomBar.Size = UDim2.new(1,
 0, 0, 28)
 RiddleBottomBar.Position = UDim2.new(0, 0, 1, - 28)
-RiddleBottomBar.BackgroundColor3 = COLORS.Row RiddleBottomBar.BackgroundTransparency = 0.6 RiddleBottomBar.BorderSizePixel = 0 RiddleBottomBar.Parent = RiddleWindow addCorner(RiddleBottomBar,
+RiddleBottomBar.BackgroundColor3 = COLORS.Row RiddleBottomBar.BackgroundTransparency = 0 RiddleBottomBar.BorderSizePixel = 0 RiddleBottomBar.Parent = RiddleWindow addCorner(RiddleBottomBar,
 16)
 RiddleBottomBar.ClipsDescendants = true
 local RiddleMinimizeButton = addMinimizeButton(RiddleHeader, RiddleWindow, 70, 350, {
