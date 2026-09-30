@@ -1,0 +1,5118 @@
+-- RXZ BLOCK SPIN
+if getgenv().RXZBlockSpin_Loaded then
+	return
+end
+
+getgenv().RXZBlockSpin_Loaded = true
+local Players
+Players = game:GetService("Players")
+local RunService, Workspace, ReplicatedStorage, UserInputService, VirtualInputManager, HttpService, ContentProvider, localPlayer, playerGui, flag
+local str, screenGui, fn, fn2, fn3, fn4, fn5, tbl, gothamBold, gothamMedium
+local gotham, fn6, fn7
+
+do
+	local TweenService = game:GetService("TweenService")
+	RunService = game:GetService("RunService")
+	Workspace = game:GetService("Workspace")
+	ReplicatedStorage = game:GetService("ReplicatedStorage")
+	UserInputService = game:GetService("UserInputService")
+	game:GetService("VirtualUser")
+	VirtualInputManager = game:GetService("VirtualInputManager")
+	HttpService = game:GetService("HttpService")
+	game:GetService("TeleportService")
+	ContentProvider = game:GetService("ContentProvider")
+	localPlayer = Players.LocalPlayer
+	playerGui = localPlayer:WaitForChild("PlayerGui")
+	local currentCamera = Workspace.CurrentCamera
+	flag = false
+	str = "rbxassetid://78296224145884"
+	screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "RXZBlockSpin"
+	screenGui.ResetOnSpawn = false
+	screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	screenGui.IgnoreGuiInset = true
+	screenGui.Parent = playerGui
+
+	fn = function(arg, arg2)
+		local instance = Instance.new(arg)
+
+		for k, v in pairs(arg2) do
+			if k ~= "Parent" then
+				instance[k] = v
+			end
+		end
+
+		if arg2.Parent then
+			instance.Parent = arg2.Parent
+		end
+
+		return instance
+	end
+
+	fn2 = function(arg, arg2, arg3)
+		local tween = TweenService:Create(arg, arg2, arg3)
+		tween:Play()
+		return tween
+	end
+
+	fn3 = function(arg, arg2, arg3, arg4, arg5)
+		task.spawn(function()
+			while arg.Parent do
+				for i = 1, #arg2 do
+					if not arg.Parent then
+						return
+					end
+					arg.Text = string.sub(arg2, 1, i)
+					task.wait(arg3)
+				end
+
+				task.wait(arg4)
+
+				for i = #arg2, 0, -1 do
+					if not arg.Parent then
+						return
+					end
+					arg.Text = string.sub(arg2, 1, i)
+					task.wait(arg5)
+				end
+
+				task.wait(0.4)
+			end
+		end)
+	end
+
+	fn4 = function(arg)
+		local n = math.floor(arg / 3600)
+		local n2 = math.floor(arg % 3600 / 60)
+		local n3 = math.floor(arg % 60)
+		if n > 0 then
+			return string.format("%02d:%02d:%02d", n, n2, n3)
+		end
+		return string.format("%02d:%02d", n2, n3)
+	end
+
+	fn5 = function(arg, arg2)
+		local color = arg2 == "success" and Color3.fromRGB(0, 255, 120) or Color3.fromRGB(255, 70, 80)
+
+		local TextLabel = fn("TextLabel", {
+			Size = UDim2.new(0, 320, 0, 50),
+			Position = UDim2.new(0.5, -160, 0.18, 0),
+			BackgroundTransparency = 1,
+			Text = arg,
+			TextColor3 = color,
+			TextSize = 18,
+			Font = Enum.Font.GothamBold,
+			TextStrokeTransparency = 0.3,
+			ZIndex = 50,
+			Parent = screenGui,
+		})
+
+		fn2(TextLabel, TweenInfo.new(0.25, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Position = UDim2.new(0.5, -160, 0.15, 0) })
+
+		task.delay(1.4, function()
+			if TextLabel and TextLabel.Parent then
+				TextLabel:Destroy()
+			end
+		end)
+	end
+
+	tbl = {
+		Background = Color3.fromRGB(6, 6, 8),
+		Panel = Color3.fromRGB(13, 13, 16),
+		PanelLight = Color3.fromRGB(20, 20, 24),
+		PanelHover = Color3.fromRGB(28, 28, 33),
+		Accent = Color3.fromRGB(255, 40, 70),
+		AccentDim = Color3.fromRGB(150, 20, 40),
+		Text = Color3.fromRGB(250, 250, 250),
+		SubText = Color3.fromRGB(160, 160, 168),
+		Stroke = Color3.fromRGB(40, 40, 46),
+		Green = Color3.fromRGB(45, 235, 120),
+		GreenDim = Color3.fromRGB(15, 100, 55),
+		Red = Color3.fromRGB(255, 60, 60),
+		Overlay = Color3.fromRGB(0, 0, 0),
+		Blue = Color3.fromRGB(55, 123, 240),
+		Gold = Color3.fromRGB(255, 215, 0),
+	}
+
+	gothamBold = Enum.Font.GothamBold
+	gothamMedium = Enum.Font.GothamMedium
+	gotham = Enum.Font.Gotham
+
+	fn6 = function(arg, textStrokeTransparency)
+		arg.TextStrokeTransparency = textStrokeTransparency or 0.5
+		arg.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	end
+
+	fn7 = function(arg)
+		local viewportSize = currentCamera.ViewportSize
+
+		if arg then
+			local n = math.clamp(viewportSize.X * 0.96, 300, 390)
+			local n2 = math.clamp(viewportSize.Y * 0.6, 370, 500)
+			return UDim2.fromOffset(n, n2)
+		end
+
+		local n = math.clamp(viewportSize.X * 0.44, 620, 760)
+		local n2 = math.clamp(viewportSize.Y * 0.66, 440, 560)
+		return UDim2.fromOffset(n, n2)
+	end
+end
+
+do
+	local Frame = fn("Frame", {
+		Name = "IntroFrame",
+		Size = UDim2.fromScale(1, 1),
+		BackgroundColor3 = tbl.Background,
+		BorderSizePixel = 0,
+		ZIndex = 20,
+		Parent = screenGui,
+	})
+
+	local ImageLabel = fn("ImageLabel", {
+		Name = "IntroBgImage",
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 0,
+		BackgroundColor3 = tbl.Background,
+		Image = "rbxassetid://100186879710136",
+		ScaleType = Enum.ScaleType.Crop,
+		ZIndex = 20,
+		Parent = Frame,
+	})
+
+	local Frame2 = fn("Frame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundColor3 = tbl.Overlay,
+		BackgroundTransparency = 0.4,
+		BorderSizePixel = 0,
+		ZIndex = 21,
+		Parent = Frame,
+	})
+
+	local TextLabel = fn("TextLabel", {
+		Name = "IntroTitle",
+		Size = UDim2.fromScale(0.8, 0.1),
+		Position = UDim2.fromScale(0.5, 0.35),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundTransparency = 1,
+		Font = Enum.Font.GothamBlack,
+		Text = "RXZ BLOCK SPIN",
+		TextColor3 = tbl.Text,
+		TextSize = 48,
+		ZIndex = 22,
+		Parent = Frame,
+	})
+
+	fn6(TextLabel, 0.2)
+
+	local TextLabel2 = fn("TextLabel", {
+		Name = "IntroSubtitle",
+		Size = UDim2.fromScale(0.8, 0.05),
+		Position = UDim2.fromScale(0.5, 0.45),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundTransparency = 1,
+		Font = gothamMedium,
+		Text = "Initializing System...",
+		TextColor3 = tbl.Accent,
+		TextSize = 16,
+		ZIndex = 22,
+		Parent = Frame,
+	})
+
+	fn6(TextLabel2, 0.3)
+
+	local Frame3 = fn("Frame", {
+		Name = "BarBack",
+		Size = UDim2.new(0.5, 0, 0, 5),
+		Position = UDim2.fromScale(0.5, 0.55),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundColor3 = tbl.PanelLight,
+		BorderSizePixel = 0,
+		ZIndex = 22,
+		Parent = Frame,
+	})
+
+	fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame3 })
+
+	local Frame4 = fn("Frame", {
+		Name = "BarFill",
+		Size = UDim2.new(0, 0, 1, 0),
+		BackgroundColor3 = tbl.Accent,
+		BorderSizePixel = 0,
+		ZIndex = 23,
+		Parent = Frame3,
+	})
+
+	fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame4 })
+	local flag2 = true
+
+	task.spawn(function()
+		local tbl2 = {
+			"Initializing System...",
+			"Fetching Player Data...",
+			"Establishing Connection...",
+			"Loading Assets...",
+		}
+
+		local n = 1
+
+		while flag2 and TextLabel2.Parent do
+			if #tbl2 < n then
+				n = 1
+			end
+
+			TextLabel2.Text = tbl2[n]
+			n += 1
+			task.wait(0.7)
+		end
+	end)
+
+	fn2(Frame4, TweenInfo.new(3.5, Enum.EasingStyle.Quad), { Size = UDim2.new(1, 0, 1, 0) })
+	task.wait(3.5)
+	flag2 = false
+	TextLabel2.Text = "Welcome back, " .. localPlayer.Name .. "!"
+	local tbl2 = { TextColor3 = tbl.Green }
+	fn2(TextLabel2, TweenInfo.new(0.3), tbl2)
+	task.wait(1.5)
+	fn2(Frame2, TweenInfo.new(0.6), { BackgroundTransparency = 1 })
+	fn2(ImageLabel, TweenInfo.new(0.6), { ImageTransparency = 1 })
+	fn2(Frame, TweenInfo.new(0.6), { BackgroundTransparency = 1 })
+	fn2(TextLabel, TweenInfo.new(0.5), { TextTransparency = 1 })
+	fn2(TextLabel2, TweenInfo.new(0.5), { TextTransparency = 1 })
+	fn2(Frame3, TweenInfo.new(0.5), { BackgroundTransparency = 1 })
+	fn2(Frame4, TweenInfo.new(0.5), { BackgroundTransparency = 1 })
+	task.wait(0.65)
+	Frame:Destroy()
+end
+
+local Frame
+
+Frame = fn("Frame", {
+	Name = "DeviceOverlay",
+	Size = UDim2.fromScale(1, 1),
+	BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+	BackgroundTransparency = 1,
+	BorderSizePixel = 0,
+	ZIndex = 20,
+	Parent = screenGui,
+})
+
+fn2(Frame, TweenInfo.new(0.35), { BackgroundTransparency = 0.45 })
+local Frame2
+
+Frame2 = fn("Frame", {
+	Name = "DeviceCard",
+	Size = UDim2.fromOffset(300, 0),
+	Position = UDim2.fromScale(0.5, 0.5),
+	AnchorPoint = Vector2.new(0.5, 0.5),
+	BackgroundColor3 = tbl.Panel,
+	BorderSizePixel = 0,
+	ClipsDescendants = true,
+	ZIndex = 21,
+	Parent = Frame,
+})
+
+fn("UICorner", { CornerRadius = UDim.new(0, 14), Parent = Frame2 })
+fn("UIStroke", { Color = tbl.Accent, Thickness = 1, Transparency = 0.4, Parent = Frame2 })
+
+fn("ImageLabel", {
+	Size = UDim2.fromScale(1, 1),
+	BackgroundTransparency = 0,
+	BackgroundColor3 = tbl.Panel,
+	Image = "rbxassetid://95647138374178",
+	ScaleType = Enum.ScaleType.Crop,
+	ZIndex = 21,
+	Parent = Frame2,
+})
+
+fn("Frame", {
+	Size = UDim2.fromScale(1, 1),
+	BackgroundColor3 = tbl.Overlay,
+	BackgroundTransparency = 0.35,
+	BorderSizePixel = 0,
+	ZIndex = 21,
+	Parent = Frame2,
+})
+
+fn2(Frame2, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.fromOffset(300, 190) })
+
+fn6(fn("TextLabel", {
+	Size = UDim2.new(1, -30, 0, 22),
+	Position = UDim2.fromOffset(15, 22),
+	BackgroundTransparency = 1,
+	Font = gothamBold,
+	Text = "Choose your device",
+	TextColor3 = tbl.Text,
+	TextSize = 18,
+	ZIndex = 22,
+	Parent = Frame2,
+}), 0.3)
+
+fn6(fn("TextLabel", {
+	Size = UDim2.new(1, -30, 0, 16),
+	Position = UDim2.fromOffset(15, 48),
+	BackgroundTransparency = 1,
+	Font = gotham,
+	Text = "This sets the layout size",
+	TextColor3 = tbl.SubText,
+	TextSize = 12,
+	ZIndex = 22,
+	Parent = Frame2,
+}), 0.4)
+
+local pc, Mobile
+
+do
+	local Frame3 = fn("Frame", {
+		Size = UDim2.new(1, -30, 0, 90),
+		Position = UDim2.fromOffset(15, 80),
+		BackgroundTransparency = 1,
+		ZIndex = 22,
+		Parent = Frame2,
+	})
+
+	fn("UIListLayout", {
+		FillDirection = Enum.FillDirection.Horizontal,
+		HorizontalAlignment = Enum.HorizontalAlignment.Center,
+		VerticalAlignment = Enum.VerticalAlignment.Center,
+		Padding = UDim.new(0, 14),
+		Parent = Frame3,
+	})
+
+	local function fn8(arg)
+		local TextButton = fn("TextButton", {
+			Size = UDim2.new(0.47, 0, 1, 0),
+			BackgroundColor3 = tbl.PanelLight,
+			BackgroundTransparency = 0.1,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = arg,
+			TextColor3 = tbl.Text,
+			TextSize = 16,
+			ZIndex = 22,
+			Parent = Frame3,
+		})
+
+		fn6(TextButton, 0.4)
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextButton })
+		fn("UIStroke", { Color = tbl.Accent, Thickness = 1, Transparency = 0.3, Parent = TextButton })
+
+		TextButton.MouseEnter:Connect(function()
+			local tbl2 = { BackgroundColor3 = tbl.AccentDim, BackgroundTransparency = 0 }
+			fn2(TextButton, TweenInfo.new(0.15), tbl2)
+		end)
+
+		TextButton.MouseLeave:Connect(function()
+			local tbl2 = { BackgroundColor3 = tbl.PanelLight, BackgroundTransparency = 0.1 }
+			fn2(TextButton, TweenInfo.new(0.15), tbl2)
+		end)
+
+		return TextButton
+	end
+
+	pc = fn8("PC")
+	Mobile = fn8("Mobile")
+end
+
+local Frame3
+
+Frame3 = fn("Frame", {
+	Name = "MainFrame",
+	Size = UDim2.fromOffset(0, 0),
+	Position = UDim2.fromScale(0.5, 0.5),
+	AnchorPoint = Vector2.new(0.5, 0.5),
+	BackgroundColor3 = tbl.Background,
+	BorderSizePixel = 0,
+	Visible = false,
+	ClipsDescendants = true,
+	ZIndex = 2,
+	Parent = screenGui,
+})
+
+fn("UICorner", { CornerRadius = UDim.new(0, 16), Parent = Frame3 })
+fn("UIStroke", { Color = tbl.Accent, Thickness = 1, Transparency = 0.5, Parent = Frame3 })
+local uiScale
+uiScale = Instance.new("UIScale")
+uiScale.Name = "MainUIScale"
+uiScale.Scale = 1
+uiScale.Parent = Frame3
+
+fn("ImageLabel", {
+	Size = UDim2.fromScale(1, 1),
+	BackgroundTransparency = 0,
+	BackgroundColor3 = tbl.Background,
+	Image = "rbxassetid://72916852257641",
+	ScaleType = Enum.ScaleType.Crop,
+	ZIndex = 1,
+	Parent = Frame3,
+})
+
+fn("Frame", {
+	Size = UDim2.fromScale(1, 1),
+	BackgroundColor3 = tbl.Overlay,
+	BackgroundTransparency = 0.45,
+	BorderSizePixel = 0,
+	ZIndex = 1,
+	Parent = Frame3,
+})
+
+local v, v2
+
+do
+	local Frame4 = fn("Frame", {
+		Name = "TopBar",
+		Size = UDim2.new(1, 0, 0, 42),
+		BackgroundColor3 = tbl.Panel,
+		BorderSizePixel = 0,
+		ZIndex = 3,
+		Parent = Frame3,
+	})
+
+	fn("UICorner", { CornerRadius = UDim.new(0, 16), Parent = Frame4 })
+
+	fn("Frame", {
+		Size = UDim2.new(1, 0, 0, 16),
+		Position = UDim2.new(0, 0, 1, -16),
+		BackgroundColor3 = tbl.Panel,
+		BorderSizePixel = 0,
+		ZIndex = 3,
+		Parent = Frame4,
+	})
+
+	local TextLabel = fn("TextLabel", {
+		Name = "TopBarText",
+		Size = UDim2.new(1, -110, 1, 0),
+		Position = UDim2.fromOffset(16, 0),
+		BackgroundTransparency = 1,
+		Font = Enum.Font.Code,
+		Text = "",
+		TextColor3 = tbl.Accent,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		TextSize = 16,
+		ZIndex = 4,
+		Parent = Frame4,
+	})
+
+	local Frame5 = fn("Frame", {
+		Size = UDim2.fromOffset(70, 26),
+		Position = UDim2.new(1, -82, 0.5, 0),
+		AnchorPoint = Vector2.new(0, 0.5),
+		BackgroundTransparency = 1,
+		ZIndex = 5,
+		Parent = Frame4,
+	})
+
+	fn("UIListLayout", {
+		FillDirection = Enum.FillDirection.Horizontal,
+		HorizontalAlignment = Enum.HorizontalAlignment.Right,
+		VerticalAlignment = Enum.VerticalAlignment.Center,
+		Padding = UDim.new(0, 8),
+		Parent = Frame5,
+	})
+
+	local function fn8(arg, arg2)
+		local TextButton = fn("TextButton", {
+			Size = UDim2.fromOffset(26, 26),
+			BackgroundColor3 = tbl.PanelLight,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = arg,
+			TextColor3 = tbl.SubText,
+			TextSize = 16,
+			ZIndex = 5,
+			Parent = Frame5,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = TextButton })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton })
+
+		TextButton.MouseEnter:Connect(function()
+			local tbl2 = { BackgroundColor3 = arg2 }
+			fn2(TextButton, TweenInfo.new(0.15), tbl2)
+			local tbl3 = { TextColor3 = tbl.Text }
+			fn2(TextButton, TweenInfo.new(0.15), tbl3)
+		end)
+
+		TextButton.MouseLeave:Connect(function()
+			local tbl2 = { BackgroundColor3 = tbl.PanelLight }
+			fn2(TextButton, TweenInfo.new(0.15), tbl2)
+			local tbl3 = { TextColor3 = tbl.SubText }
+			fn2(TextButton, TweenInfo.new(0.15), tbl3)
+		end)
+
+		return TextButton
+	end
+
+	v = fn8("—", tbl.AccentDim)
+	v2 = fn8("×", tbl.Red)
+	fn3(TextLabel, "RXZ BLOCK SPIN", 0.06, 1.2, 0.03)
+end
+
+local flag2
+flag2 = false
+
+do
+	local flag3 = false
+	local v3 = nil
+	local position = nil
+	local position2 = nil
+
+	local function fn8(arg)
+		local n = arg.Position - position
+		Frame3.Position = UDim2.new(position2.X.Scale, position2.X.Offset + n.X, position2.Y.Scale, position2.Y.Offset + n.Y)
+	end
+
+	local function fn9()
+		local mouseLocation = UserInputService:GetMouseLocation()
+		local guiObjectsAtPosition = playerGui:GetGuiObjectsAtPosition(mouseLocation.X, mouseLocation.Y)
+
+		for _, v4 in ipairs(guiObjectsAtPosition) do
+			if v4:IsDescendantOf(Frame3) then
+				local name = v4.Name or ""
+				if name == "SliderTrack" or name == "SliderKnob" or name == "SliderFill" then
+					return true
+				end
+				local parent = v4.Parent
+				local flag4
+
+				if parent then
+					flag4 = parent.Name == "SliderTrack" or parent.Name == "SliderKnob" or parent.Name == "SliderFill"
+				else
+					flag4 = parent
+				end
+
+				if flag4 then
+					return true
+				end
+			end
+		end
+
+		return false
+	end
+
+	Frame3.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			if flag2 or fn9() then
+				return
+			end
+			flag3 = true
+			position = input.Position
+			position2 = Frame3.Position
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if not flag3 then
+			return
+		end
+
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			v3 = input
+		end
+	end)
+
+	UserInputService.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			flag3 = false
+			flag2 = false
+		end
+	end)
+
+	RunService.RenderStepped:Connect(function()
+		if flag3 and v3 then
+			if flag2 or fn9() then
+				flag3 = false
+				return
+			end
+			fn8(v3)
+		end
+	end)
+end
+
+local Frame4
+
+Frame4 = fn("Frame", {
+	Name = "Sidebar",
+	Size = UDim2.new(0, 150, 1, -42),
+	Position = UDim2.new(1, -150, 0, 42),
+	BackgroundColor3 = tbl.Panel,
+	BackgroundTransparency = 0.05,
+	BorderSizePixel = 0,
+	ZIndex = 2,
+	Parent = Frame3,
+})
+
+local Frame5
+local Frame6 = fn("Frame", { Size = UDim2.new(1, 0, 0, 58), BackgroundTransparency = 1, ZIndex = 3, Parent = Frame4 })
+
+Frame5 = fn("Frame", {
+	Name = "UptimeBadge",
+	Size = UDim2.fromOffset(90, 20),
+	Position = UDim2.fromOffset(14, 18),
+	BackgroundColor3 = tbl.GreenDim,
+	BackgroundTransparency = 0.25,
+	ZIndex = 3,
+	Parent = Frame6,
+})
+
+fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame5 })
+fn("UIStroke", { Color = tbl.Green, Thickness = 1, Transparency = 0.1, Parent = Frame5 })
+local TextLabel3
+
+local Frame7 = fn("Frame", {
+	Size = UDim2.fromOffset(6, 6),
+	Position = UDim2.fromOffset(8, 7),
+	BackgroundColor3 = tbl.Green,
+	BorderSizePixel = 0,
+	ZIndex = 4,
+	Parent = Frame5,
+})
+
+fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame7 })
+
+TextLabel3 = fn("TextLabel", {
+	Size = UDim2.new(1, -20, 1, 0),
+	Position = UDim2.fromOffset(18, 0),
+	BackgroundTransparency = 1,
+	Font = gothamMedium,
+	Text = "00:00",
+	TextColor3 = tbl.Green,
+	TextXAlignment = Enum.TextXAlignment.Left,
+	TextSize = 12,
+	ZIndex = 4,
+	Parent = Frame5,
+})
+
+task.spawn(function()
+	while Frame7.Parent do
+		fn2(Frame7, TweenInfo.new(0.8, Enum.EasingStyle.Sine), { BackgroundTransparency = 0.6 })
+		task.wait(0.8)
+		fn2(Frame7, TweenInfo.new(0.8, Enum.EasingStyle.Sine), { BackgroundTransparency = 0 })
+		task.wait(0.8)
+	end
+end)
+
+local now = os.clock()
+
+task.spawn(function()
+	while TextLabel3.Parent do
+		TextLabel3.Text = fn4(os.clock() - now)
+		task.wait(1)
+	end
+end)
+
+fn("Frame", {
+	Size = UDim2.new(1, -20, 0, 1),
+	Position = UDim2.fromOffset(10, 58),
+	BackgroundColor3 = tbl.Stroke,
+	BorderSizePixel = 0,
+	ZIndex = 3,
+	Parent = Frame4,
+})
+
+local ScrollingFrame
+
+ScrollingFrame = fn("ScrollingFrame", {
+	Size = UDim2.new(1, -20, 1, -76),
+	Position = UDim2.fromOffset(10, 66),
+	BackgroundTransparency = 1,
+	BorderSizePixel = 0,
+	ScrollBarThickness = 3,
+	ScrollBarImageColor3 = tbl.AccentDim,
+	CanvasSize = UDim2.fromOffset(0, 0),
+	AutomaticCanvasSize = Enum.AutomaticSize.Y,
+	ZIndex = 3,
+	Parent = Frame4,
+})
+
+fn("UIListLayout", { Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder, Parent = ScrollingFrame })
+local Frame8
+
+Frame8 = fn("Frame", {
+	Name = "ContentArea",
+	Size = UDim2.new(1, -150, 1, -42),
+	Position = UDim2.new(0, 0, 0, 42),
+	BackgroundTransparency = 1,
+	BorderSizePixel = 0,
+	ZIndex = 2,
+	Parent = Frame3,
+})
+
+if getgenv then
+	getgenv().identifyexecutor = nil
+end
+
+if getfenv then
+	getfenv().identifyexecutor = nil
+end
+
+local tbl2
+tbl2 = {}
+
+do
+	local remotes = ReplicatedStorage:WaitForChild("Remotes", 10)
+	local tbl3 = {}
+	local tbl4 = { event = 0, func = 0 }
+	local handlers = {}
+	local flag3 = false
+	local handlers2 = {}
+
+	if remotes then
+		tbl3.send = remotes:FindFirstChild("Send")
+		tbl3.get = remotes:FindFirstChild("Get")
+	end
+
+	tbl2.on_connect = function(arg)
+		if flag3 then
+			arg()
+		else
+			handlers2[#handlers2 + 1] = arg
+		end
+	end
+
+	tbl2.hook = function(arg, arg2)
+		if not arg2 then
+			error("Function nil for hook " .. arg)
+		end
+
+		if flag3 then
+			handlers[arg] = arg2
+		else
+			tbl2.on_connect(function()
+				tbl2.hook(arg, arg2)
+			end)
+		end
+	end
+
+	tbl2.is_connected = function(arg)
+		return arg:GetAttribute("IsConnected") and true or false
+	end
+
+	task.wait(0.1)
+
+	if tbl3.send then
+		local send = tbl3.send
+		local fireServer = tbl3.send.FireServer
+
+		tbl2.send = function(arg, ...)
+			tbl4.event = tbl4.event + 1
+			local event = tbl4.event
+			local v3 = table.pack(...)
+			local v4 = fireServer
+			local v5 = send
+			v3.n = 4 + v3.n - 1
+			table.move(v3, 1, v3.n, 4, v3)
+			v3[1] = v5
+			v3[2] = event
+			v3[3] = arg
+			v4(table.unpack(v3, 1, v3.n))
+		end
+	end
+
+	if tbl3.get then
+		local get = tbl3.get
+		local invokeServer = tbl3.get.InvokeServer
+
+		tbl2.get = function(arg, ...)
+			tbl4.func = tbl4.func + 1
+			local func = tbl4.func
+			local v3 = table.pack(...)
+			local v4 = invokeServer
+			local v5 = get
+			v3.n = 4 + v3.n - 1
+			table.move(v3, 1, v3.n, 4, v3)
+			v3[1] = v5
+			v3[2] = func
+			v3[3] = arg
+			return v4(table.unpack(v3, 1, v3.n))
+		end
+	end
+
+	task.wait(0.1)
+
+	local function fn8()
+		if tbl3.send then
+			tbl3.send.OnClientEvent:Connect(function(arg, ...)
+				if handlers[arg] then
+					handlers[arg](...)
+				end
+			end)
+		end
+
+		if tbl3.get then
+			tbl3.get.OnClientInvoke = function(arg, ...)
+				if handlers[arg] then
+					return handlers[arg](...)
+				end
+			end
+		end
+
+		pcall(function()
+			for i = 1, #handlers2 do
+				handlers2[i]()
+			end
+		end)
+	end
+
+	tbl2.loaded = function()
+		flag3 = true
+		fn8()
+	end
+end
+
+pcall(function()
+	require(ReplicatedStorage.Modules.Game.UI.TransitionUI).transition = function()
+	end
+end)
+
+pcall(function()
+	local CharacterCreator = require(ReplicatedStorage.Modules.Game.CharacterCreator.CharacterCreator)
+
+	if CharacterCreator.start then
+		CharacterCreator.start = function()
+			while true do
+				task.wait(1)
+			end
+		end
+	end
+end)
+
+local Net
+Net = nil
+local Data
+Data = nil
+local ItemUtils
+local v3 = nil
+ItemUtils = nil
+
+pcall(function()
+	Net = require(ReplicatedStorage.Modules.Core.Net)
+	v3 = Net
+end)
+
+pcall(function()
+	Data = require(ReplicatedStorage.Modules.Core.Data)
+end)
+
+pcall(function()
+	ItemUtils = require(ReplicatedStorage.Modules.Game.Inventory.ItemUtils)
+end)
+
+if not Net then
+	pcall(function()
+		local modules = ReplicatedStorage:WaitForChild("Modules", 5)
+
+		if modules then
+			local core = modules:FindFirstChild("Core")
+
+			if core then
+				Net = require(core:WaitForChild("Net"))
+				v3 = Net
+				Data = require(core:WaitForChild("Data"))
+			end
+
+			local game_ = modules:FindFirstChild("Game")
+
+			if game_ then
+				local inventory = game_:FindFirstChild("Inventory")
+
+				if inventory then
+					ItemUtils = require(inventory:WaitForChild("ItemUtils"))
+				end
+			end
+		end
+	end)
+end
+
+local flag3
+flag3 = true
+
+task.spawn(function()
+	while flag3 do
+		task.wait(900)
+		local character = localPlayer.Character
+
+		if character and character:FindFirstChild("Humanoid") then
+			local humanoid = character.Humanoid
+
+			if humanoid.Health > 0 then
+				humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+				task.wait(0.1)
+				humanoid:ChangeState(Enum.HumanoidStateType.Landed)
+			end
+		end
+	end
+end)
+
+CAST_POSITIONS = {
+	Vector3.new(82.11319, 245.16185, 922.22076),
+	Vector3.new(87.578094, 245.05617, 922.16223),
+	Vector3.new(86.844086, 244.8289, 920.0074),
+	Vector3.new(87.49276, 245.28297, 924.3126),
+	Vector3.new(89.351, 245.19716, 923.49896),
+}
+
+multiSpotEnabled = false
+currentSpotIndex = 1
+catchesPerSpot = 1
+currentSpotCatches = 0
+enabledSpots = { true, false, false, false, false }
+local fn8
+
+fn8 = function()
+	local character = localPlayer.Character
+	local backpack = localPlayer:FindFirstChild("Backpack")
+	local tbl3 = { "FishingRodUltimate", "FishingRodAdvanced", "FishingRodPro", "FishingRodRegular" }
+
+	local function fn9(arg)
+		if not arg or not arg:IsA("Tool") then
+			return false
+		end
+		local v4 = string.lower(tostring(arg.Name))
+		if string.find(v4, "rod") or string.find(v4, "fish") or string.find(v4, "سنار") then
+			return true
+		end
+
+		for _, v5 in ipairs(tbl3) do
+			if arg.Name == v5 then
+				return true
+			end
+		end
+
+		return false
+	end
+
+	if character then
+		local tool = character:FindFirstChildOfClass("Tool")
+		if tool then
+			return tool
+		end
+
+		for _, v4 in ipairs(tbl3) do
+			local v5 = character:FindFirstChild(v4)
+			if v5 then
+				return v5
+			end
+		end
+
+		for _, child in ipairs(character:GetChildren()) do
+			if fn9(child) then
+				return child
+			end
+		end
+	end
+
+	if backpack then
+		for _, v4 in ipairs(tbl3) do
+			local v5 = backpack:FindFirstChild(v4)
+			if v5 then
+				return v5
+			end
+		end
+
+		for _, child in ipairs(backpack:GetChildren()) do
+			if fn9(child) then
+				return child
+			end
+		end
+	end
+
+	return nil
+end
+
+local fn9
+
+fn9 = function()
+	local v4 = fn8()
+	if not v4 then
+		return false
+	end
+	local character = localPlayer.Character
+	character = character and character:FindFirstChildOfClass("Humanoid")
+
+	if character and v4.Parent == localPlayer.Backpack then
+		character:EquipTool(v4)
+	end
+
+	return true
+end
+
+getRodAndBaitUid = function()
+	local items = playerGui:FindFirstChild("Items")
+	local text = nil
+	local name = nil
+	local name2 = nil
+
+	if items then
+		local itemsScrollingFrame = items:FindFirstChild("ItemsHolder") and items.ItemsHolder:FindFirstChild("ItemsScrollingFrame")
+		text = nil
+		name = nil
+		name2 = nil
+
+		if itemsScrollingFrame then
+			name = nil
+			text = nil
+			name2 = nil
+
+			for _, child in pairs(itemsScrollingFrame:GetChildren()) do
+				if child.Name ~= "Folder" and child.Name ~= "UIGridLayout" and child.Name ~= "ItemTemplate" then
+					local itemName = child:FindFirstChild("ItemName")
+
+					if itemName and itemName.Text then
+						local v4 = string.lower(itemName.Text)
+
+						if string.find(v4, "rod") then
+							name = child.Name
+							text = itemName.Text
+						end
+
+						if string.find(v4, "wormtec") or string.find(v4, "prawntec") then
+							name2 = child.Name
+						end
+					end
+				end
+			end
+		end
+	end
+
+	return name, name2, text
+end
+
+EquipBaitOnRod = function()
+	local v4, v5 = getRodAndBaitUid()
+	if not v4 or not v5 then
+		return false
+	end
+
+	pcall(function()
+		require(ReplicatedStorage.Modules.Core.Net).get("equip_ammo_on_item", v4, v5)
+	end)
+
+	return true
+end
+
+getEnabledSpotList = function()
+	local tbl3 = {}
+
+	for i = 1, #CAST_POSITIONS do
+		if enabledSpots[i] then
+			table.insert(tbl3, i)
+		end
+	end
+
+	if #tbl3 == 0 then
+		enabledSpots[1] = true
+		table.insert(tbl3, 1)
+	end
+
+	return tbl3
+end
+
+getCurrentCastPosition = function()
+	local v4 = getEnabledSpotList()
+	local flag4 = false
+
+	for _, v5 in ipairs(v4) do
+		if v5 == currentSpotIndex then
+			flag4 = true
+			break
+		end
+	end
+
+	if not flag4 then
+		currentSpotIndex = v4[1]
+	end
+
+	multiSpotEnabled = #v4 > 1
+	return CAST_POSITIONS[currentSpotIndex] or CAST_POSITIONS[1]
+end
+
+local fn10, fn11, tbl3, tbl4, fn12, fn13, fn14, fn15, tbl5, flag4
+local n, flag5, flag6, tbl6, flag7, flag8, tbl7, v4, fn16, fn17
+local fn18
+
+do
+	local function fn19(arg, arg2)
+		local n2 = arg2 or 45
+		local v5 = getCurrentCastPosition()
+		if not v5 or not arg then
+			return false
+		end
+		return (arg - v5).Magnitude <= n2
+	end
+
+	advanceSpotAfterCatch = function()
+		local v5 = getEnabledSpotList()
+		multiSpotEnabled = #v5 > 1
+		if not multiSpotEnabled then
+			return
+		end
+		currentSpotCatches = currentSpotCatches + 1
+
+		if currentSpotCatches >= catchesPerSpot then
+			currentSpotCatches = 0
+			local v6 = currentSpotIndex
+			local n2 = 1
+
+			for i, v7 in ipairs(v5) do
+				if v7 == v6 then
+					n2 = i
+					break
+				end
+			end
+
+			currentSpotIndex = v5[n2 % #v5 + 1]
+			fn5("تبديل للوزنية " .. currentSpotIndex, "success")
+		end
+	end
+
+	hasBaitInInventory = function()
+		local v5
+		v5, v5 = getRodAndBaitUid()
+		return v5 ~= nil
+	end
+
+	fn10 = function()
+		if isSliderOpen and isSliderOpen() then
+			return true
+		end
+		local v5 = nil
+
+		pcall(function()
+			v5 = getHookedFishName()
+		end)
+
+		if v5 then
+			return true
+		end
+		local character = localPlayer.Character
+		if not character then
+			return false
+		end
+		local tool = character:FindFirstChildOfClass("Tool")
+		if not tool then
+			return false
+		end
+		local flag9 = false
+
+		pcall(function()
+			for _, descendant in ipairs(tool:GetDescendants()) do
+				local v6 = string.lower(tostring(descendant.Name))
+
+				if descendant:IsA("BoolValue") or descendant:IsA("NumberValue") then
+					if string.find(v6, "cast") or string.find(v6, "fish") or string.find(v6, "line") then
+						if descendant:IsA("BoolValue") and descendant.Value == true then
+							flag9 = true
+							break
+						elseif descendant:IsA("NumberValue") and descendant.Value ~= 0 then
+							flag9 = true
+							break
+						end
+					end
+				elseif descendant:IsA("Beam") or descendant:IsA("RopeConstraint") or descendant:IsA("RodConstraint") then
+					flag9 = true
+					break
+				elseif string.find(v6, "bobber") or string.find(v6, "float") or string.find(v6, "line") then
+					if descendant:IsA("BasePart") or descendant:IsA("Attachment") or descendant:IsA("BillboardGui") then
+						flag9 = true
+						break
+					end
+				end
+			end
+		end)
+
+		if flag9 then
+			return true
+		end
+
+		pcall(function()
+			for _, child in ipairs(Workspace:GetChildren()) do
+				local v6 = string.lower(tostring(child.Name))
+
+				if string.find(v6, "bobber") or string.find(v6, "float") or string.find(v6, "lure") or string.find(v6, "bait") then
+					local isBasePart = child:IsA("BasePart") and child or child:FindFirstChildWhichIsA("BasePart")
+					if isBasePart and fn19(isBasePart.Position, 50) then
+						flag9 = true
+						break
+					end
+				end
+			end
+		end)
+
+		return flag9
+	end
+
+	__rg_casting = false
+	__rg_lastCast = 0
+	__rg_farmLock = false
+	__rg_noAction = 0
+
+	local function fn20(arg)
+		if not arg or not arg:IsA("Tool") then
+			return false
+		end
+		local v5 = string.lower(tostring(arg.Name))
+		if string.find(v5, "rod") or string.find(v5, "سنار") then
+			return true
+		end
+
+		for _, v6 in ipairs({ "FishingRodUltimate", "FishingRodAdvanced", "FishingRodPro", "FishingRodRegular" }) do
+			if arg.Name == v6 then
+				return true
+			end
+		end
+
+		return false
+	end
+
+	local function fn21()
+		local character = localPlayer.Character
+		if not character then
+			return nil
+		end
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		local backpack = localPlayer:FindFirstChild("Backpack")
+		if not humanoid then
+			return nil
+		end
+		local v5, v6, v7 = getRodAndBaitUid()
+		local Net2 = require(ReplicatedStorage.Modules.Core.Net)
+		local tool = character:FindFirstChildOfClass("Tool")
+
+		if tool and not fn20(tool) then
+			pcall(function()
+				humanoid:UnequipTools()
+			end)
+
+			task.wait(0.05)
+		end
+
+		local v8 = nil
+
+		if v7 then
+			v8 = character:FindFirstChild(v7) or backpack and backpack:FindFirstChild(v7)
+		end
+
+		v8 = v8 or fn8()
+
+		if not v8 and v5 then
+			pcall(function()
+				Net2.get("toggle_equip_item", tostring(v5))
+			end)
+
+			task.wait(0.08)
+			v8 = fn8()
+
+			if v7 then
+				v8 = v8 or character:FindFirstChild(v7) or backpack and backpack:FindFirstChild(v7)
+			end
+		end
+
+		if not v8 then
+			return nil
+		end
+
+		if v8.Parent ~= character then
+			if v8.Parent == backpack then
+				humanoid:EquipTool(v8)
+				task.wait(0.08)
+			end
+		end
+
+		local tool2 = character:FindFirstChildOfClass("Tool")
+		if tool2 and fn20(tool2) then
+			return tool2
+		end
+
+		if v8.Parent == backpack or v8.Parent == character then
+			pcall(function()
+				humanoid:UnequipTools()
+			end)
+
+			task.wait(0.04)
+
+			if v8.Parent == backpack then
+				humanoid:EquipTool(v8)
+				task.wait(0.08)
+			end
+
+			local tool3 = character:FindFirstChildOfClass("Tool")
+			if tool3 and fn20(tool3) then
+				return tool3
+			end
+		end
+
+		return nil
+	end
+
+	fn11 = function()
+		if __rg_casting then
+			return false
+		end
+		local now2 = os.clock()
+		if now2 - __rg_lastCast < 0.2 then
+			return false
+		end
+		__rg_casting = true
+		__rg_lastCast = now2
+
+		local ok, result = pcall(function()
+			local character = localPlayer.Character
+			if not character then
+				return false
+			end
+
+			if not character:FindFirstChild("HumanoidRootPart") then
+				return false
+			end
+			local v5, v6 = getRodAndBaitUid()
+			if not v6 then
+				fn5("ما معك طعم — وقف الرمي", "error")
+				return false
+			end
+
+			if not v5 then
+				fn5("ما لقيت السنارة", "error")
+				return false
+			end
+			local v7 = fn21()
+			if not v7 then
+				fn5("مسك السنارة فشل — ما تم الرمي", "error")
+				return false
+			end
+			local Net2 = require(ReplicatedStorage.Modules.Core.Net)
+			local v8 = getCurrentCastPosition()
+			Net2.get("equip_ammo_on_item", v5, v6)
+			Net2.get("throw_rod", v7, v8)
+			return true
+		end)
+
+		__rg_casting = false
+		return ok and result == true
+	end
+
+	tbl3 = {
+		Bass = true,
+		Coelacanth = true,
+		Dolphinfish = true,
+		Marlin = true,
+		["Northern Pike"] = true,
+		Perch = true,
+		Sailfish = true,
+		Salmon = true,
+		Tuna = true,
+	}
+
+	local tbl8 = {
+		"Bass",
+		"Perch",
+		"Salmon",
+		"Northern Pike",
+		"Dolphinfish",
+		"Coelacanth",
+		"Tuna",
+		"Sailfish",
+		"Marlin",
+	}
+
+	tbl4 = {
+		Bass = "rbxassetid://115478852920268",
+		Perch = "rbxassetid://120790036643519",
+		["Northern Pike"] = "rbxassetid://91567798951795",
+		Dolphinfish = "rbxassetid://74102109520530",
+		Coelacanth = "rbxassetid://111492514991742",
+		Sailfish = "rbxassetid://136544080216241",
+		Marlin = "rbxassetid://134139262277770",
+		Salmon = "rbxassetid://116976924917398",
+		Tuna = "rbxassetid://103896149644143",
+	}
+
+	local tbl9 = {}
+
+	for k, v5 in pairs(tbl4) do
+		local v6 = string.match(v5, "%d+")
+
+		if v6 then
+			tbl9[k] = string.format("rbxthumb://type=Asset&id=%s&w=150&h=150", v6)
+		else
+			tbl9[k] = v5
+		end
+	end
+
+	fn12 = function(arg)
+		return tbl9[arg] or tbl4[arg]
+	end
+
+	task.spawn(function()
+		local tbl10 = {}
+
+		for _, v5 in pairs(tbl9) do
+			table.insert(tbl10, v5)
+		end
+
+		pcall(function()
+			ContentProvider:PreloadAsync(tbl10)
+		end)
+	end)
+
+	local tbl10 = nil
+	local tbl11 = { _blocked = nil, _lastShown = nil }
+	local n2 = 0
+
+	local function fn22()
+		if tbl10 and tbl10.part and tbl10.part.Parent then
+			return tbl10
+		end
+		local part = Instance.new("Part")
+		part.Name = "RXZBlockSpin_FishMark"
+		part.Anchored = true
+		part.CanCollide = false
+		part.CanQuery = false
+		part.CanTouch = false
+		part.Transparency = 1
+		part.Size = Vector3.new(0.2, 0.2, 0.2)
+		part.Parent = Workspace
+		local billboardGui = Instance.new("BillboardGui")
+		billboardGui.Name = "RXZBlockSpin_FishBill"
+		billboardGui.AlwaysOnTop = true
+		billboardGui.LightInfluence = 0
+		billboardGui.Size = UDim2.fromOffset(64, 64)
+		billboardGui.StudsOffset = Vector3.new(0, 1, 0)
+		billboardGui.MaxDistance = 400
+		billboardGui.Enabled = false
+		billboardGui.Parent = part
+		local frame = Instance.new("Frame")
+		frame.Size = UDim2.fromScale(1, 1)
+		frame.BackgroundTransparency = 1
+		frame.BorderSizePixel = 0
+		frame.ClipsDescendants = true
+		frame.Parent = billboardGui
+		Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+		local imageLabel = Instance.new("ImageLabel")
+		imageLabel.Name = "Pic"
+		imageLabel.BackgroundTransparency = 1
+		imageLabel.BorderSizePixel = 0
+		imageLabel.Size = UDim2.fromScale(1, 1)
+		imageLabel.ScaleType = Enum.ScaleType.Crop
+		imageLabel.Parent = frame
+		tbl10 = { part = part, bill = billboardGui, image = imageLabel, name = nil }
+		return tbl10
+	end
+
+	local function fn23()
+		if tbl10 and tbl10.bill then
+			tbl10.bill.Enabled = false
+			tbl10.name = nil
+		end
+
+		tbl11._lastShown = nil
+	end
+
+	fn13 = function()
+		fn23()
+		tbl11._blocked = nil
+		tbl11._lastShown = nil
+		n2 = 0
+	end
+
+	fn14 = function(name)
+		if not name then
+			return
+		end
+
+		if os.clock() < n2 then
+			return
+		end
+		local v5 = fn12(name)
+		if not v5 then
+			return
+		end
+		local v6 = getCurrentCastPosition()
+		if not v6 then
+			return
+		end
+		local v7 = fn22()
+		if v7.name == name and v7.bill and v7.bill.Enabled then
+			v7.part.Position = v6 + Vector3.new(0, 4, 0)
+			return
+		end
+		local n3 = flag and 40 or 64
+		v7.bill.Size = UDim2.fromOffset(n3, n3)
+		v7.bill.MaxDistance = flag and 200 or 400
+		v7.part.Position = v6 + Vector3.new(0, 4, 0)
+
+		if v7.image.Image ~= v5 then
+			v7.image.Image = v5
+		end
+
+		v7.bill.Enabled = true
+		v7.name = name
+		tbl11._lastShown = name
+		tbl11._blocked = nil
+	end
+
+	fn15 = function()
+		local tbl12 = {}
+		local tbl13 = {}
+
+		for _, v5 in ipairs(tbl8) do
+			if tbl3[v5] ~= nil then
+				table.insert(tbl12, v5)
+				tbl13[v5] = true
+			end
+		end
+
+		for k in pairs(tbl3) do
+			if not tbl13[k] then
+				table.insert(tbl12, k)
+			end
+		end
+
+		return tbl12
+	end
+
+	tbl5 = {}
+
+	for _, v5 in ipairs(tbl8) do
+		tbl5[v5] = false
+	end
+
+	for k in pairs(tbl3) do
+		if tbl5[k] == nil then
+			tbl5[k] = false
+		end
+	end
+
+	flag4 = false
+	n = 0
+	flag5 = false
+	flag6 = false
+	tbl6 = {}
+
+	for _, v5 in ipairs(tbl8) do
+		tbl6[v5] = false
+	end
+
+	for k in pairs(tbl3) do
+		if tbl6[k] == nil then
+			tbl6[k] = false
+		end
+	end
+
+	flag7 = false
+	flag8 = false
+	tbl7 = {}
+	v4 = nil
+
+	local function fn24()
+		pcall(function()
+			VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+			task.wait(0.05)
+			VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Two, false, game)
+		end)
+	end
+
+	local function fn25(arg)
+		if not arg then
+			return nil
+		end
+		local str2 = tostring(arg)
+		if tbl3[str2] ~= nil then
+			return str2
+		end
+		return nil
+	end
+
+	local function fn26(arg)
+		if not arg or arg == "" then
+			return nil
+		end
+		local str2 = tostring(arg)
+		local v5 = fn25(str2)
+		if v5 then
+			return v5
+		end
+		local v6 = string.match(str2, "%(([^%)]+)%)")
+
+		if v6 then
+			local v7 = string.gsub(string.gsub(v6, "^%s+", ""), "%s+$", "")
+			local v8 = fn25(v7)
+			if v8 then
+				return v8
+			end
+		end
+
+		return nil
+	end
+
+	local function fn27(arg)
+		for i = 1, 8 do
+			if not arg then
+				break
+			end
+			local v5 = fn25(arg.Name)
+			if v5 then
+				return v5
+			end
+
+			if arg:IsA("Model") or arg:IsA("Folder") then
+				local v6 = fn25(arg.Name)
+				if v6 then
+					return v6
+				end
+			end
+
+			arg = arg.Parent
+		end
+
+		return nil
+	end
+
+	local function fn28(arg)
+		if not arg then
+			return nil
+		end
+		local v5 = fn27(arg)
+		if v5 then
+			return v5
+		end
+		local v6 = fn26(arg.Name)
+		if v6 then
+			return v6
+		end
+
+		if arg:IsA("StringValue") or arg:IsA("ObjectValue") then
+			local v7 = fn26(tostring(arg.Value))
+			if v7 then
+				return v7
+			end
+		end
+
+		for _, v7 in pairs(arg:GetAttributes()) do
+			local v8 = fn26(tostring(v7))
+			if v8 then
+				return v8
+			end
+		end
+
+		if arg:IsA("BillboardGui") or arg:IsA("SurfaceGui") or arg:IsA("TextLabel") or arg:IsA("TextButton") then
+			local text = arg.Text
+
+			if text then
+				local v7 = fn26(text)
+				if v7 then
+					return v7
+				end
+			end
+		end
+
+		for _, child in ipairs(arg:GetChildren()) do
+			if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then
+				for _, child2 in ipairs(child:GetChildren()) do
+					if child2:IsA("TextLabel") or child2:IsA("TextButton") then
+						local v7 = fn26(child2.Text)
+						if v7 then
+							return v7
+						end
+					end
+				end
+
+				continue
+			end
+
+			if child:IsA("TextLabel") or child:IsA("TextButton") then
+				local v7 = fn26(child.Text)
+				if v7 then
+					return v7
+				end
+			end
+		end
+
+		return nil
+	end
+
+	local function fn29()
+		local character = localPlayer.Character
+		if not character then
+			return nil
+		end
+		local tool = character:FindFirstChildOfClass("Tool")
+
+		if tool then
+			local v5 = string.lower(tostring(tool.Name))
+			if string.find(v5, "rod") or string.find(v5, "fish") or string.find(v5, "سنار") then
+				return tool
+			end
+		end
+
+		for _, v5 in ipairs({ "FishingRodUltimate", "FishingRodAdvanced", "FishingRodPro", "FishingRodRegular" }) do
+			local v6 = character:FindFirstChild(v5)
+			if v6 then
+				return v6
+			end
+		end
+
+		for _, child in ipairs(character:GetChildren()) do
+			if child:IsA("Tool") then
+				local v5 = string.lower(tostring(child.Name))
+				if string.find(v5, "rod") or string.find(v5, "fish") or string.find(v5, "سنار") then
+					return child
+				end
+			end
+		end
+
+		return nil
+	end
+
+	fn16 = function()
+		local function fn30(arg, arg2)
+			while arg do
+				if arg == arg2 then
+					return true
+				end
+				arg = arg.Parent
+			end
+
+			return false
+		end
+
+		local function fn31(arg, arg2)
+			local tbl12 = {}
+
+			for _, v5 in ipairs({ "Attachment0", "Attachment1", "Part0", "Part1" }) do
+				local ok, result = pcall(function()
+					return arg[v5]
+				end)
+
+				if ok and typeof(result) == "Instance" then
+					if result:IsA("Attachment") then
+						table.insert(tbl12, result.Parent)
+					else
+						table.insert(tbl12, result)
+					end
+				end
+			end
+
+			for _, v5 in ipairs(tbl12) do
+				if v5 and not fn30(v5, arg2) then
+					return v5
+				end
+			end
+
+			return tbl12[2]
+		end
+
+		local fn32 = nil
+
+		fn32 = function(arg, arg2)
+			if not arg then
+				return nil
+			end
+			arg2 = arg2 or 0
+			local v5 = fn28(arg)
+			if v5 then
+				return v5
+			end
+
+			if arg2 >= 3 then
+				return nil
+			end
+
+			for _, child in ipairs(arg:GetChildren()) do
+				local v6 = fn32(child, arg2 + 1)
+				if v6 then
+					return v6
+				end
+			end
+
+			if arg.Parent and arg.Parent ~= Workspace and not arg.Parent:IsA("Tool") then
+				return fn28(arg.Parent)
+			end
+			return nil
+		end
+
+		local function fn33(arg)
+			if not arg then
+				return nil
+			end
+			local v5 = nil
+
+			pcall(function()
+				local v6 = fn32(arg, 0)
+				if v6 then
+					v5 = v6
+					return
+				end
+
+				for _, descendant in ipairs(arg:GetDescendants()) do
+					local v7 = fn28(descendant)
+					if v7 then
+						v5 = v7
+						return
+					end
+
+					if descendant:IsA("Beam") or descendant:IsA("Trail") or descendant:IsA("RopeConstraint") or descendant:IsA("RodConstraint") or descendant:IsA("SpringConstraint") then
+						local parent = fn31(descendant, arg)
+
+						if parent then
+							local position
+
+							if parent:IsA("BasePart") then
+								position = parent.Position
+							else
+								local basePart = parent:FindFirstChildWhichIsA("BasePart")
+								position = nil
+
+								if basePart then
+									position = basePart.Position
+								end
+							end
+
+							position = position and not fn19(position, 55)
+							if position then
+								continue
+							end
+							local v8 = fn32(parent, 0)
+							if v8 then
+								v5 = v8
+								return
+							end
+
+							for i = 1, 6 do
+								if not parent then
+									break
+								end
+								local v9 = fn28(parent)
+								if v9 then
+									v5 = v9
+									return
+								end
+								parent = parent.Parent
+								if not parent or parent == Workspace or parent:IsA("Tool") then
+									break
+								end
+							end
+						end
+					end
+				end
+			end)
+
+			return v5
+		end
+
+		local ok, result = pcall(function()
+			local v5 = fn29() or fn8()
+			if not v5 then
+				return nil
+			end
+			return fn33(v5)
+		end)
+
+		if ok then
+			return result
+		end
+		return nil
+	end
+
+	fn17 = function(arg)
+		return flag4 and arg and tbl5[arg] == true
+	end
+
+	fn18 = function(arg, arg2)
+		if flag5 then
+			return false
+		end
+		flag5 = true
+		task.wait(1)
+
+		if not arg2 and n > 0 then
+			local n3 = 0
+
+			while n3 < n do
+				if flag4 then
+					task.wait(0.05)
+					n3 += 0.05
+					continue
+				end
+
+				break
+			end
+		end
+
+		if not flag4 then
+			flag5 = false
+			return false
+		end
+
+		pcall(function()
+			local character = localPlayer.Character
+			character = character and character:FindFirstChildOfClass("Humanoid")
+
+			if character then
+				character:UnequipTools()
+				task.wait(0.03)
+				fn9()
+			else
+				fn24()
+				fn24()
+			end
+		end)
+
+		fn5("تسكيب: " .. tostring(arg), "error")
+		flag5 = false
+		return true
+	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.1)
+
+			if not flag5 and not flag6 then
+				local v5 = fn16()
+
+				if not v5 then
+					if tbl11._blocked or tbl11._lastShown then
+						tbl11._blocked = nil
+						fn13()
+						tbl11._blocked = nil
+						n2 = 0
+						continue
+					end
+
+					continue
+				end
+
+				if flag4 and tbl5[v5] == true then
+					fn14(v5)
+					fn18(v5)
+					fn13()
+					continue
+				end
+
+				fn14(v5)
+			end
+		end
+	end)
+end
+
+local flag9
+flag9 = false
+local flag10
+
+do
+	local vector = Vector3.new(-252.746, 252.839, 379.64)
+	local n2 = 5
+	flag10 = false
+
+	local function fn19()
+		local flag11 = false
+
+		pcall(function()
+			if ItemUtils and Data then
+				ItemUtils.iterate_through_items(Data, function(arg)
+					if arg and arg.name and tbl3[arg.name] then
+						flag11 = true
+					end
+				end)
+			end
+		end)
+
+		if flag11 then
+			return true
+		end
+
+		pcall(function()
+			local items = playerGui:FindFirstChild("Items")
+			local itemsScrollingFrame = items and items:FindFirstChild("ItemsHolder") and items.ItemsHolder:FindFirstChild("ItemsScrollingFrame")
+			if not itemsScrollingFrame then
+				return
+			end
+
+			for _, child in pairs(itemsScrollingFrame:GetChildren()) do
+				if child.Name ~= "Folder" and child.Name ~= "UIGridLayout" and child.Name ~= "ItemTemplate" then
+					local attribute = child:GetAttribute("ItemType")
+					if attribute and string.lower(tostring(attribute)) == "fish" then
+						flag11 = true
+						break
+					end
+				end
+			end
+		end)
+
+		return flag11
+	end
+
+	local function fn20()
+		local ok = pcall(function()
+			if Net then
+				Net.get("sell_all_fish")
+			end
+		end)
+
+		local ok2 = pcall(function()
+			require(game:GetService("ReplicatedStorage").Modules.Core.Net).get("sell_all_fish")
+		end)
+
+		return ok or ok2
+	end
+
+	local function fn21()
+		local character = localPlayer.Character
+		if not character then
+			return 9999
+		end
+		local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+		if not humanoidRootPart then
+			return 9999
+		end
+		return (humanoidRootPart.Position - vector).Magnitude
+	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.35)
+
+			if flag9 then
+				local flag11 = fn21() <= n2
+
+				if flag11 and not flag10 then
+					if fn19() then
+						task.wait(0.25)
+						fn20()
+						fn5("💰 AutoSell: Sell request sent!", "success")
+						task.wait(0.4)
+					end
+
+					flag10 = true
+					continue
+				end
+
+				if not flag11 then
+					flag10 = false
+				end
+			else
+				flag10 = false
+			end
+		end
+	end)
+end
+
+local tbl8
+tbl8 = { totalFish = 0, fishCaught = {}, sessionStart = os.time() }
+local v5, fn19
+
+do
+	local tbl9 = {}
+	v5 = nil
+
+	local function fn20(arg)
+		if not arg or arg == "" then
+			return
+		end
+		tbl8.totalFish = tbl8.totalFish + 1
+		tbl8.fishCaught[arg] = (tbl8.fishCaught[arg] or 0) + 1
+		fn5("🐟 تم صيد: " .. arg .. " (×" .. tbl8.fishCaught[arg] .. ")", "success")
+
+		if v5 then
+			v5()
+		end
+
+		if webhookAutoNotify then
+			onFishCaughtForWebhook(arg)
+		end
+	end
+
+	fn19 = function()
+		local function fn21()
+			pcall(function()
+				if not ItemUtils or not Data then
+					return
+				end
+
+				ItemUtils.iterate_through_items(Data, function(arg)
+					if not arg or not arg.name then
+						return
+					end
+
+					if tbl3[arg.name] then
+						local str2 = arg.name .. "_" .. (arg.guid or "")
+
+						if not tbl9[str2] then
+							tbl9[str2] = true
+							fn20(arg.name)
+						end
+					end
+				end)
+			end)
+		end
+
+		if Data and Data.hook then
+			Data.hook("items", function()
+				fn21()
+
+				if v5 then
+					v5()
+				end
+			end)
+		end
+
+		if Data and Data.item_added then
+			local itemAdded = Data.item_added
+
+			Data.item_added = function(arg)
+				if itemAdded then
+					itemAdded(arg)
+				end
+
+				if arg and arg.name and tbl3[arg.name] then
+					local str2 = arg.name .. "_" .. (arg.guid or "")
+
+					if not tbl9[str2] then
+						tbl9[str2] = true
+						fn20(arg.name)
+					end
+				end
+
+				if v5 then
+					v5()
+				end
+			end
+		end
+
+		task.delay(1.5, fn21)
+	end
+end
+
+local q
+q = Enum.KeyCode.Q
+local thread, flag11, tbl9, v6, v7, v8
+
+do
+	local flag12 = false
+	thread = nil
+	local v9 = nil
+	flag11 = false
+	autoBuyBaitEnabled = false
+	BAIT_SHOP_POS = Vector3.new(-135.954, 251.811, 154.499)
+	BAIT_BUY_MAX_DIST = 25
+
+	BAIT_TIERS = {
+		{ Name = "PrawntecUltimate", Level = 45 },
+		{ Name = "PrawntecPro", Level = 30 },
+		{ Name = "PrawntecRegular", Level = 25 },
+		{ Name = "WormtecUltimate", Level = 15 },
+		{ Name = "WormtecPro", Level = 8 },
+		{ Name = "WormtecRegular", Level = 1 },
+	}
+
+	tbl9 = {}
+	local v10 = nil
+	v6 = nil
+	v7 = nil
+	v8 = nil
+	local v11 = nil
+	local v12 = nil
+	local v13 = nil
+	local v14 = nil
+	local v15 = nil
+	local v16 = nil
+	local v17 = nil
+	local v18 = nil
+	local tbl10 = {}
+	local tbl11 = {}
+	local v19 = nil
+	local v20 = nil
+
+	local function fn20()
+		for _, descendant in ipairs(game:GetDescendants()) do
+			if descendant:IsA("ModuleScript") and descendant.Name == "SliderMinigame" then
+				local ok, result = pcall(require, descendant)
+
+				if ok then
+					v9 = result
+				end
+
+				break
+			end
+		end
+	end
+
+	local v21 = nil
+	local flag13 = false
+	local n2 = 0
+	local n3 = 0.15
+
+	pcall(function()
+		local Keybinds = require(game.ReplicatedStorage.Modules.Game.Keybinds)
+
+		if Keybinds and Keybinds.hook_action then
+			local hookAction = Keybinds.hook_action
+
+			Keybinds.hook_action = function(arg, arg2, ...)
+				if arg == "minigame_click" then
+					v21 = arg2
+				end
+
+				local v22 = table.pack(...)
+				local v23 = hookAction
+				v22.n = 3 + v22.n - 1
+				table.move(v22, 1, v22.n, 3, v22)
+				v22[1] = arg
+				v22[2] = arg2
+				return v23(table.unpack(v22, 1, v22.n))
+			end
+		end
+	end)
+
+	local function fn21()
+		if v21 then
+			pcall(v21, true)
+		elseif mouse1click then
+			pcall(mouse1click)
+		else
+			pcall(function()
+				local VirtualInputManager2 = game:GetService("VirtualInputManager")
+				VirtualInputManager2:SendMouseButtonEvent(100, 100, 0, true, game, 1)
+				task.wait(0.03)
+				VirtualInputManager2:SendMouseButtonEvent(100, 100, 0, false, game, 1)
+			end)
+		end
+	end
+
+	local function fn22()
+		if not v9 then
+			return false
+		end
+
+		local ok, result = pcall(function()
+			local v22 = v9.needle_pos.get()
+			local v23 = v9.target_pos.get()
+			local n4 = v9.target_size.get() / 2
+			return v22 >= v23 - n4 and v22 <= v23 + n4
+		end)
+
+		return ok and result == true
+	end
+
+	local function fn23()
+		if v9 and v9.enabled and v9.enabled.get then
+			return v9.enabled.get() == true
+		end
+		return false
+	end
+
+	local function fn24()
+		if not fn23() then
+			return false
+		end
+
+		if fn22() then
+			local now2 = os.clock()
+
+			if n3 <= now2 - n2 then
+				fn21()
+				n2 = now2
+				return true
+			end
+		end
+
+		return false
+	end
+
+	local function fn25()
+		if flag13 then
+			return
+		end
+		flag13 = true
+
+		task.spawn(function()
+			while flag11 do
+				fn24()
+				task.wait(0.02)
+			end
+
+			flag13 = false
+		end)
+	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.15)
+
+			if flag11 and fn23() and not flag13 then
+				fn25()
+			end
+		end
+	end)
+
+	local function fn26()
+		fn21()
+	end
+
+	getFishingLevelSafe = function()
+		local n4 = 1
+
+		pcall(function()
+			local Data2 = Data or require(ReplicatedStorage.Modules.Core.Data)
+			local XPFormula = require(ReplicatedStorage.Modules.Game.Skills.XPFormula)
+
+			if Data2 and Data2.xp then
+				local n5 = 0
+
+				for k, v22 in pairs(Data2.xp) do
+					if string.lower(tostring(k)) == "fishing" or string.find(string.lower(tostring(k)), "fish") then
+						n5 = v22
+						break
+					end
+				end
+
+				if XPFormula and XPFormula.xp_to_level then
+					n4 = XPFormula.xp_to_level(n5) or 1
+				end
+			end
+		end)
+
+		return n4
+	end
+
+	getBestBaitName = function()
+		local v22 = getFishingLevelSafe()
+
+		for _, v23 in ipairs(BAIT_TIERS) do
+			if v22 >= v23.Level then
+				return v23.Name
+			end
+		end
+
+		return "WormtecRegular"
+	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.25)
+
+			if autoBuyBaitEnabled then
+				pcall(function()
+					local character = localPlayer.Character
+					character = character and character:FindFirstChild("HumanoidRootPart")
+					if not character then
+						return
+					end
+
+					if BAIT_BUY_MAX_DIST < (character.Position - BAIT_SHOP_POS).Magnitude then
+						return
+					end
+					local shopZoneHardware = Workspace:FindFirstChild("ShopZone_Hardware") or Workspace:WaitForChild("ShopZone_Hardware", 1)
+					if not shopZoneHardware then
+						return
+					end
+					require(ReplicatedStorage.Modules.Core.Net).get("purchase_consumable", shopZoneHardware, "PrawntecUltimate")
+				end)
+			end
+		end
+	end)
+
+	local function fn27()
+		if flag6 or __rg_farmLock then
+			return
+		end
+		__rg_farmLock = true
+		flag6 = true
+		currentSpotIndex = 1
+		currentSpotCatches = 0
+		__rg_casting = false
+		flag5 = false
+		__rg_lastCast = 0
+		__rg_noAction = os.clock()
+		fn5("Auto Farm ON", "success")
+
+		if thread then
+			pcall(function()
+				task.cancel(thread)
+			end)
+
+			thread = nil
+		end
+
+		thread = task.spawn(function()
+			while flag6 do
+				if not pcall(function()
+					if not flag6 then
+						return
+					end
+
+					if not hasBaitInInventory() then
+						fn5("ما معك طعم", "error")
+						task.wait(2)
+						return
+					end
+
+					while flag6 and __rg_casting do
+						task.wait(0.1)
+					end
+
+					if not flag6 then
+						return
+					end
+					__rg_lastCast = 0
+					if not fn11() then
+						task.wait(0.1)
+						return
+					end
+					local n4 = os.clock() + 45
+					local exitTo = nil
+					local flag14, v22
+
+					while true do
+						local flag15 = flag6 and os.clock() < n4
+						flag14 = false
+
+						if flag15 then
+							if fn23() then
+								exitTo = 2
+								break
+							else
+								v22 = fn16()
+
+								if v22 then
+									fn14(v22)
+
+									if not (fn17(v22) and not flag5) then
+										if not fn10() then
+											exitTo = 1
+											break
+										else
+											task.wait(0.08)
+											continue
+										end
+									end
+								elseif not fn10() then
+									exitTo = 1
+									break
+								else
+									task.wait(0.08)
+									continue
+								end
+							end
+						else
+							exitTo = 1
+							break
+						end
+
+						break
+					end
+
+					if exitTo ~= 1 then
+						if exitTo ~= 2 then
+							if n > 0 then
+								task.wait(n)
+							end
+
+							fn14(v22)
+							fn18(v22, true)
+							fn13()
+							advanceSpotAfterCatch()
+							return
+						end
+
+						flag14 = true
+					end
+
+					if not flag6 then
+						return
+					end
+
+					if flag14 then
+						local v23 = fn16()
+
+						if v23 then
+							fn14(v23)
+						end
+
+						if v23 and fn17(v23) then
+							if n > 0 then
+								task.wait(n)
+							end
+
+							if flag6 then
+								fn14(v23)
+								fn18(v23, true)
+								fn13()
+							end
+						else
+							local n5 = 0
+
+							while flag6 and fn23() and n5 < 30 do
+								fn24()
+								task.wait(0.02)
+								n5 += 0.02
+							end
+
+							fn13()
+						end
+
+						advanceSpotAfterCatch()
+					end
+				end) then
+					__rg_casting = false
+					task.wait(0.3)
+				end
+			end
+		end)
+
+		task.delay(0.2, function()
+			__rg_farmLock = false
+		end)
+	end
+
+	local function fn28()
+		if __rg_farmLock and not flag6 then
+			return
+		end
+
+		if not flag6 then
+			return
+		end
+		__rg_farmLock = true
+		flag6 = false
+		__rg_casting = false
+		flag5 = false
+
+		if thread then
+			pcall(function()
+				task.cancel(thread)
+			end)
+
+			thread = nil
+		end
+
+		pcall(function()
+			local character = localPlayer.Character
+			character = character and character:FindFirstChild("HumanoidRootPart")
+
+			if character then
+				character.Anchored = false
+			end
+		end)
+
+		currentSpotIndex = 1
+		currentSpotCatches = 0
+		fn5("Auto Farm OFF", "error")
+
+		task.delay(0.15, function()
+			__rg_farmLock = false
+		end)
+	end
+
+	local function fn29()
+		if __rg_farmLock then
+			return
+		end
+
+		if flag6 then
+			fn28()
+		else
+			fn27()
+		end
+	end
+
+	local str2 = ""
+	local n4 = 0
+	local n5 = 1800
+	local tbl12 = {}
+
+	for k in pairs(tbl3) do
+		tbl12[k] = false
+	end
+
+	local text = ""
+	local flag14 = false
+
+	local function fn30(arg)
+		if text == "" or #text < 20 then
+			return false
+		end
+
+		return (pcall(function()
+			local json = HttpService:JSONEncode({ content = arg })
+
+			if request then
+				request({ Url = text, Method = "POST", Headers = { ["Content-Type"] = "application/json" }, Body = json })
+			elseif syn and syn.request then
+				syn.request({ Url = text, Method = "POST", Headers = { ["Content-Type"] = "application/json" }, Body = json })
+			end
+		end))
+	end
+
+	local tbl13 = {}
+	local tbl14 = {}
+
+	local function fn31(arg)
+		for k, v22 in pairs(tbl14) do
+			v22.Visible = k == arg
+		end
+
+		for k, v22 in pairs(tbl13) do
+			if k == arg then
+				local tbl15 = { BackgroundColor3 = tbl.AccentDim, BackgroundTransparency = 0 }
+				fn2(v22, TweenInfo.new(0.15), tbl15)
+
+				if v22:FindFirstChild("TextLabel") then
+					v22.TextLabel.TextColor3 = tbl.Text
+				end
+			else
+				local tbl15 = { BackgroundColor3 = tbl.PanelLight, BackgroundTransparency = 0.15 }
+				fn2(v22, TweenInfo.new(0.15), tbl15)
+
+				if v22:FindFirstChild("TextLabel") then
+					v22.TextLabel.TextColor3 = tbl.SubText
+				end
+			end
+		end
+	end
+
+	for _, v22 in ipairs({
+		{ Name = "Info", Order = 1 },
+		{ Name = "FARM", Order = 2 },
+		{ Name = "Fish Manger", Order = 3 },
+		{ Name = "Save Fish", Order = 4 },
+		{ Name = "Statistics", Order = 5 },
+		{ Name = "Webhook Discord", Order = 6 },
+		{ Name = "تنقيص الحجم", Order = 8 },
+		{ Name = "Config", Order = 9 },
+	}) do
+		local TextButton = fn("TextButton", {
+			Name = v22.Name .. "Button",
+			Size = UDim2.new(1, 0, 0, 32),
+			BackgroundColor3 = tbl.PanelLight,
+			BackgroundTransparency = 0.15,
+			AutoButtonColor = false,
+			Text = "",
+			LayoutOrder = v22.Order,
+			ZIndex = 3,
+			Parent = ScrollingFrame,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton })
+
+		fn("TextLabel", {
+			Name = "TextLabel",
+			Size = UDim2.new(1, -16, 1, 0),
+			Position = UDim2.fromOffset(10, 0),
+			BackgroundTransparency = 1,
+			Font = gotham,
+			Text = v22.Name,
+			TextColor3 = tbl.SubText,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextSize = 13,
+			ZIndex = 4,
+			Parent = TextButton,
+		})
+
+		tbl13[v22.Name] = TextButton
+
+		local ScrollingFrame2 = fn("ScrollingFrame", {
+			Name = v22.Name .. "Page",
+			Size = UDim2.fromScale(1, 1),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
+			ScrollBarThickness = 3,
+			ScrollBarImageColor3 = tbl.AccentDim,
+			CanvasSize = UDim2.fromScale(0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			Visible = false,
+			ZIndex = 2,
+			Parent = Frame8,
+		})
+
+		fn("UIPadding", {
+			PaddingTop = UDim.new(0, 14),
+			PaddingLeft = UDim.new(0, 14),
+			PaddingRight = UDim.new(0, 14),
+			PaddingBottom = UDim.new(0, 20),
+			Parent = ScrollingFrame2,
+		})
+
+		tbl14[v22.Name] = ScrollingFrame2
+
+		TextButton.MouseButton1Click:Connect(function()
+			fn31(v22.Name)
+		end)
+	end
+
+	local function buildInfoPage()
+		local info = tbl14.Info
+
+		fn6(fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 32),
+			BackgroundTransparency = 1,
+			Font = gothamBold,
+			Text = "RXZ BLOCK SPIN",
+			TextColor3 = tbl.Text,
+			TextSize = 22,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = info,
+		}), 0.3)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 22),
+			Position = UDim2.fromOffset(0, 38),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Version 1.0  •  by z3k",
+			TextColor3 = tbl.Accent,
+			TextSize = 14,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = info,
+		})
+
+		local about = fn("Frame", {
+			Size = UDim2.new(1, 0, 0, 118),
+			Position = UDim2.fromOffset(0, 76),
+			BackgroundColor3 = tbl.Panel,
+			BorderSizePixel = 0,
+			Parent = info,
+		})
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = about })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = about })
+		fn("TextLabel", {
+			Size = UDim2.new(1, -24, 1, -20),
+			Position = UDim2.fromOffset(12, 10),
+			BackgroundTransparency = 1,
+			Font = gotham,
+			Text = "سكربت متكامل لإدارة الصيد والأتمتة، حفظ الأسماك، متابعة الإحصائيات، إعداد Webhook وحفظ إعداداتك بسهولة.",
+			TextColor3 = tbl.SubText,
+			TextSize = 14,
+			TextWrapped = true,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextYAlignment = Enum.TextYAlignment.Top,
+			Parent = about,
+		})
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 20),
+			Position = UDim2.fromOffset(0, 214),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Discord الرسمي",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = info,
+		})
+
+		local copyButton = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 44),
+			Position = UDim2.fromOffset(0, 242),
+			BackgroundColor3 = tbl.AccentDim,
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "discord.gg/rxz   •   نسخ الرابط",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = info,
+		})
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = copyButton })
+		fn("UIStroke", { Color = tbl.Accent, Thickness = 1, Transparency = 0.25, Parent = copyButton })
+
+		copyButton.MouseButton1Click:Connect(function()
+			local copied = pcall(function()
+				if setclipboard then
+					setclipboard("https://discord.gg/rxz")
+				elseif toclipboard then
+					toclipboard("https://discord.gg/rxz")
+				else
+					error("Clipboard is unavailable")
+				end
+			end)
+
+			if copied then
+				copyButton.Text = "تم النسخ ✓"
+				fn5("تم نسخ رابط الديسكورد", "success")
+				task.delay(1.5, function()
+					if copyButton.Parent then
+						copyButton.Text = "discord.gg/rxz   •   نسخ الرابط"
+					end
+				end)
+			else
+				fn5("تعذر نسخ الرابط تلقائيًا", "error")
+			end
+		end)
+	end
+
+	buildInfoPage()
+
+	local function fn32()
+		local farm = tbl14.FARM
+
+		fn6(fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 26),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "FARM",
+			TextColor3 = tbl.Text,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextSize = 18,
+			Parent = farm,
+		}), 0.4)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 22),
+			Position = UDim2.fromOffset(0, 28),
+			BackgroundTransparency = 1,
+			Font = gothamBold,
+			Text = "اختار الوزنية",
+			TextColor3 = tbl.Text,
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = farm,
+		})
+
+		local Frame9 = fn("Frame", {
+			Size = UDim2.new(1, 0, 0, 34),
+			Position = UDim2.fromOffset(0, 54),
+			BackgroundTransparency = 1,
+			Parent = farm,
+		})
+
+		fn("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 8), Parent = Frame9 })
+		local tbl15 = {}
+
+		local function fn33()
+			local v22 = getEnabledSpotList()
+			multiSpotEnabled = #v22 > 1
+			local flag15 = false
+
+			for _, v23 in ipairs(v22) do
+				if v23 == currentSpotIndex then
+					flag15 = true
+					break
+				end
+			end
+
+			if not flag15 then
+				currentSpotIndex = v22[1]
+			end
+
+			for k, v23 in pairs(tbl15) do
+				if enabledSpots[k] then
+					v23.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+				else
+					v23.BackgroundColor3 = Color3.fromRGB(70, 70, 90)
+				end
+
+				v23.Text = "وزنية " .. k
+			end
+		end
+
+		for i = 1, #CAST_POSITIONS do
+			local TextButton = fn("TextButton", {
+				Name = "SpotBtn" .. i,
+				Size = UDim2.new(1 / #CAST_POSITIONS, -6, 1, 0),
+				BackgroundColor3 = Color3.fromRGB(70, 70, 90),
+				AutoButtonColor = false,
+				Font = gothamBold,
+				Text = "وزنية " .. i,
+				TextColor3 = tbl.Text,
+				TextSize = 13,
+				Parent = Frame9,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton })
+			fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton })
+			tbl15[i] = TextButton
+
+			TextButton.MouseButton1Click:Connect(function()
+				local v22 = getEnabledSpotList()
+				if enabledSpots[i] and #v22 <= 1 then
+					fn5("لازم وزنية واحدة على الأقل", "error")
+					return
+				end
+				enabledSpots[i] = not enabledSpots[i]
+				currentSpotCatches = 0
+				fn33()
+
+				if enabledSpots[i] then
+					currentSpotIndex = i
+					fn5("وزنية رقم " .. i, "success")
+				else
+					fn5("وزنية رقم " .. i .. " OFF", "error")
+				end
+			end)
+		end
+
+		fn33()
+		v10 = tbl15[1]
+
+		local TextLabel4 = fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 22),
+			Position = UDim2.fromOffset(0, 96),
+			BackgroundTransparency = 1,
+			Font = gothamBold,
+			Text = "التبديل بين الوزنيات بعد كل: 1 صيدة",
+			TextColor3 = tbl.Text,
+			TextSize = 16,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = farm,
+		})
+
+		local Frame10 = fn("Frame", {
+			Name = "SliderTrack",
+			Size = UDim2.new(1, 0, 0, 10),
+			Position = UDim2.fromOffset(0, 122),
+			BackgroundColor3 = tbl.PanelLight,
+			BorderSizePixel = 0,
+			Active = true,
+			Parent = farm,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame10 })
+
+		local Frame11 = fn("Frame", {
+			Name = "SliderFill",
+			Size = UDim2.new(0, 0, 1, 0),
+			BackgroundColor3 = tbl.Accent,
+			BorderSizePixel = 0,
+			Parent = Frame10,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame11 })
+
+		local Frame12 = fn("Frame", {
+			Name = "SliderKnob",
+			Size = UDim2.fromOffset(18, 18),
+			Position = UDim2.new(0, -4, 0.5, 0),
+			AnchorPoint = Vector2.new(0, 0.5),
+			BackgroundColor3 = tbl.Text,
+			BorderSizePixel = 0,
+			ZIndex = 5,
+			Active = true,
+			Parent = Frame10,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame12 })
+		fn("UIStroke", { Color = tbl.Accent, Thickness = 2, Parent = Frame12 })
+		local n6 = 1
+		local n7 = 10
+		local flag15 = false
+
+		local function fn34(arg)
+			local n8 = math.clamp(math.floor(arg + 0.5), 1, 10)
+			catchesPerSpot = n8
+			local n9 = (n8 - n6) / (n7 - n6)
+			Frame11.Size = UDim2.new(n9, 0, 1, 0)
+			Frame12.Position = UDim2.new(n9, -9, 0.5, 0)
+			TextLabel4.Text = "التبديل بين الوزنيات بعد كل: " .. n8 .. " صيدة"
+		end
+
+		v19 = fn34
+		fn34(1)
+
+		local function fn35(arg)
+			local x = Frame10.AbsolutePosition.X
+			local x2 = Frame10.AbsoluteSize.X
+			if x2 <= 0 then
+				return catchesPerSpot
+			end
+			return n6 + math.clamp((arg - x) / x2, 0, 1) * (n7 - n6)
+		end
+
+		Frame10.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = true
+				flag2 = true
+				fn34(fn35(input.Position.X))
+			end
+		end)
+
+		Frame12.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = true
+				flag2 = true
+			end
+		end)
+
+		UserInputService.InputChanged:Connect(function(input)
+			if flag15 and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+				fn34(fn35(input.Position.X))
+			end
+		end)
+
+		UserInputService.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = false
+				flag2 = false
+			end
+		end)
+
+		local TextButton = fn("TextButton", {
+			Name = "AutoFarmBtn",
+			Size = UDim2.new(1, 0, 0, 48),
+			Position = UDim2.fromOffset(0, 145),
+			BackgroundColor3 = Color3.fromRGB(210, 105, 0),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "Auto Farm  [ OFF ]",
+			TextColor3 = tbl.Text,
+			TextSize = 16,
+			Parent = farm,
+		})
+
+		v6 = TextButton
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextButton })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton })
+
+		TextButton.MouseButton1Click:Connect(function()
+			fn29()
+
+			if flag6 then
+				TextButton.Text = "Auto Farm  [ ON ]"
+				TextButton.BackgroundColor3 = tbl.GreenDim
+				fn2(TextButton, TweenInfo.new(0.2), { BackgroundColor3 = Color3.fromRGB(20, 140, 70) })
+			else
+				TextButton.Text = "Auto Farm  [ OFF ]"
+				TextButton.BackgroundColor3 = Color3.fromRGB(210, 105, 0)
+			end
+		end)
+
+		local TextButton2 = fn("TextButton", {
+			Name = "AutoSkipSliderBtn",
+			Size = UDim2.new(1, 0, 0, 42),
+			Position = UDim2.fromOffset(0, 200),
+			BackgroundColor3 = Color3.fromRGB(80, 60, 120),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "تسكيب السلايدر تلقائي  [ OFF ]",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = farm,
+		})
+
+		v7 = TextButton2
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextButton2 })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton2 })
+
+		TextButton2.MouseButton1Click:Connect(function()
+			flag11 = not flag11
+
+			if flag11 then
+				TextButton2.Text = "تسكيب السلايدر تلقائي  [ ON ]"
+				TextButton2.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+				fn5("✅ تسكيب السلايدر تلقائي ON", "success")
+
+				if fn25 then
+					fn25()
+				end
+			else
+				TextButton2.Text = "تسكيب السلايدر تلقائي  [ OFF ]"
+				TextButton2.BackgroundColor3 = Color3.fromRGB(80, 60, 120)
+				fn5("تسكيب السلايدر تلقائي OFF", "error")
+			end
+		end)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 20),
+			Position = UDim2.fromOffset(0, 255),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Keybind (Skip Slider)",
+			TextColor3 = tbl.SubText,
+			TextSize = 13,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = farm,
+		})
+
+		local TextLabel5 = fn("TextLabel", {
+			Size = UDim2.new(0.45, 0, 0, 42),
+			Position = UDim2.fromOffset(0, 280),
+			BackgroundColor3 = tbl.PanelLight,
+			Font = gothamBold,
+			Text = "Q",
+			TextColor3 = tbl.Text,
+			TextSize = 22,
+			Parent = farm,
+		})
+
+		v8 = TextLabel5
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextLabel5 })
+		fn("UIStroke", { Color = tbl.Accent, Thickness = 1, Transparency = 0.4, Parent = TextLabel5 })
+
+		local TextButton3 = fn("TextButton", {
+			Size = UDim2.new(0.5, -8, 0, 42),
+			Position = UDim2.new(0.5, 8, 0, 280),
+			BackgroundColor3 = tbl.PanelLight,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "🔄 Change Key",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = farm,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextButton3 })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton3 })
+
+		TextButton3.MouseButton1Click:Connect(function()
+			if flag12 then
+				return
+			end
+			flag12 = true
+			TextButton3.Text = "⌨️ Press any key..."
+			TextLabel5.Text = "?"
+			local connection = nil
+
+			connection = UserInputService.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.Keyboard then
+					q = input.KeyCode
+					TextLabel5.Text = tostring(q.Name)
+					TextButton3.Text = "🔄 Change Key"
+					flag12 = false
+					connection:Disconnect()
+					fn5("Key set to: " .. q.Name, "success")
+				end
+			end)
+		end)
+
+		UserInputService.InputBegan:Connect(function(input, gameProcessed)
+			if gameProcessed then
+				return
+			end
+
+			if input.KeyCode == q then
+				fn26()
+			end
+		end)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 70),
+			Position = UDim2.fromOffset(0, 335),
+			BackgroundTransparency = 1,
+			Font = gotham,
+			Text = [[• التيك حقي : 3z.soon
+• 
+• تسكيب سلايدر سوا كان صرافات او سمك
+• مثال: 2 = يصيد مرتين بكل وزنية ثم ينقل]],
+			TextColor3 = tbl.SubText,
+			TextSize = 12,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextYAlignment = Enum.TextYAlignment.Top,
+			Parent = farm,
+		})
+	end
+
+	fn32()
+
+	local function fn33()
+		local function fn34()
+			local flag15 = false
+
+			pcall(function()
+				if ItemUtils and Data then
+					ItemUtils.iterate_through_items(Data, function(arg)
+						if flag15 then
+							return
+						end
+
+						if arg and arg.name and tbl6[arg.name] then
+							flag15 = true
+						end
+					end)
+				end
+			end)
+
+			if flag15 then
+				return true
+			end
+
+			pcall(function()
+				local items = playerGui:FindFirstChild("Items")
+				local itemsScrollingFrame = items and items:FindFirstChild("ItemsHolder") and items.ItemsHolder:FindFirstChild("ItemsScrollingFrame")
+				if not itemsScrollingFrame then
+					return
+				end
+
+				for _, child in pairs(itemsScrollingFrame:GetChildren()) do
+					if child.Name ~= "Folder" and child.Name ~= "UIGridLayout" and child.Name ~= "ItemTemplate" then
+						local itemName = child:FindFirstChild("ItemName")
+						local text2 = itemName and itemName.Text
+						if text2 and tbl6[text2] then
+							flag15 = true
+							break
+						end
+					end
+				end
+			end)
+
+			return flag15
+		end
+
+		local function fn35()
+			if flag8 then
+				return
+			end
+
+			if not flag7 then
+				return
+			end
+
+			if not fn34() then
+				return
+			end
+			flag8 = true
+
+			pcall(function()
+				localPlayer:Kick("ازهللل السمك محفوظظ")
+			end)
+		end
+
+		local function fn36(arg)
+			if not flag7 or not arg then
+				return
+			end
+			local health = arg.Health
+			local maxHealth = arg.MaxHealth
+			if maxHealth <= 0 then
+				return
+			end
+
+			if health <= maxHealth * 0.9 or health <= 90 then
+				fn35()
+			end
+		end
+
+		local function fn37(character)
+			if not character then
+				return
+			end
+
+			task.spawn(function()
+				local humanoid = character:WaitForChild("Humanoid", 10)
+				if not humanoid then
+					return
+				end
+				fn36(humanoid)
+
+				humanoid.HealthChanged:Connect(function()
+					fn36(humanoid)
+				end)
+			end)
+		end
+
+		if localPlayer.Character then
+			fn37(localPlayer.Character)
+		end
+
+		localPlayer.CharacterAdded:Connect(fn37)
+
+		pcall(function()
+			local Char = require(ReplicatedStorage.Modules.Core.Char)
+
+			if Char and Char.hook then
+				Char.hook(function(arg)
+					fn37(arg)
+				end)
+			end
+		end)
+
+		local function fn38()
+			local saveFish = tbl14["Save Fish"]
+			if not saveFish then
+				return
+			end
+
+			fn6(fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 26),
+				BackgroundTransparency = 1,
+				Font = gothamMedium,
+				Text = "Save Fish",
+				TextColor3 = tbl.Text,
+				TextSize = 18,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = saveFish,
+			}), 0.4)
+
+			fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 36),
+				Position = UDim2.fromOffset(0, 28),
+				BackgroundTransparency = 1,
+				Font = gotham,
+				Text = " Safe Mode.",
+				TextColor3 = tbl.SubText,
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				TextYAlignment = Enum.TextYAlignment.Top,
+				TextWrapped = true,
+				Parent = saveFish,
+			})
+
+			local ScrollingFrame2 = fn("ScrollingFrame", {
+				Size = UDim2.new(1, 0, 0, 220),
+				Position = UDim2.fromOffset(0, 70),
+				BackgroundColor3 = tbl.Panel,
+				BorderSizePixel = 0,
+				ScrollBarThickness = 4,
+				ScrollBarImageColor3 = tbl.AccentDim,
+				CanvasSize = UDim2.fromOffset(0, 0),
+				AutomaticCanvasSize = Enum.AutomaticSize.Y,
+				Parent = saveFish,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = ScrollingFrame2 })
+
+			fn("UIPadding", {
+				PaddingTop = UDim.new(0, 6),
+				PaddingLeft = UDim.new(0, 6),
+				PaddingRight = UDim.new(0, 6),
+				Parent = ScrollingFrame2,
+			})
+
+			fn("UIListLayout", { Padding = UDim.new(0, 5), Parent = ScrollingFrame2 })
+
+			local function fn39(arg, arg2)
+				if tbl6[arg2] then
+					arg.BackgroundColor3 = tbl.GreenDim
+					arg.Text = "  ✅  " .. arg2 .. "  [محفوظ]"
+					arg.TextColor3 = tbl.Green
+				else
+					arg.BackgroundColor3 = tbl.PanelLight
+					arg.Text = "  ⬜  " .. arg2
+					arg.TextColor3 = tbl.SubText
+				end
+			end
+
+			for _, v22 in ipairs(fn15()) do
+				local TextButton = fn("TextButton", {
+					Size = UDim2.new(1, -4, 0, 32),
+					BackgroundColor3 = tbl.PanelLight,
+					AutoButtonColor = false,
+					Font = gotham,
+					Text = "",
+					TextSize = 14,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					Parent = ScrollingFrame2,
+				})
+
+				fn("UICorner", { CornerRadius = UDim.new(0, 7), Parent = TextButton })
+				fn39(TextButton, v22)
+				tbl7[v22] = TextButton
+
+				TextButton.MouseButton1Click:Connect(function()
+					tbl6[v22] = not tbl6[v22]
+					fn39(TextButton, v22)
+				end)
+			end
+
+			local TextButton = fn("TextButton", {
+				Size = UDim2.new(0.48, 0, 0, 28),
+				Position = UDim2.fromOffset(0, 300),
+				BackgroundColor3 = tbl.Blue,
+				AutoButtonColor = false,
+				Font = gothamMedium,
+				Text = "تحديد الكل",
+				TextColor3 = tbl.Text,
+				TextSize = 12,
+				Parent = saveFish,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton })
+
+			local TextButton2 = fn("TextButton", {
+				Size = UDim2.new(0.48, 0, 0, 28),
+				Position = UDim2.new(0.52, 0, 0, 300),
+				BackgroundColor3 = Color3.fromRGB(160, 40, 40),
+				AutoButtonColor = false,
+				Font = gothamMedium,
+				Text = "إلغاء الكل",
+				TextColor3 = tbl.Text,
+				TextSize = 12,
+				Parent = saveFish,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton2 })
+
+			TextButton.MouseButton1Click:Connect(function()
+				for k in pairs(tbl6) do
+					tbl6[k] = true
+				end
+
+				for k, v22 in pairs(tbl7) do
+					if v22 and v22.Parent then
+						fn39(v22, k)
+					end
+				end
+			end)
+
+			TextButton2.MouseButton1Click:Connect(function()
+				for k in pairs(tbl6) do
+					tbl6[k] = false
+				end
+
+				for k, v22 in pairs(tbl7) do
+					if v22 and v22.Parent then
+						fn39(v22, k)
+					end
+				end
+			end)
+
+			local TextButton3 = fn("TextButton", {
+				Size = UDim2.new(1, 0, 0, 42),
+				Position = UDim2.fromOffset(0, 340),
+				BackgroundColor3 = Color3.fromRGB(80, 80, 100),
+				AutoButtonColor = false,
+				Font = gothamBold,
+				Text = "Activate Safe Mode  [ OFF ]",
+				TextColor3 = tbl.Text,
+				TextSize = 15,
+				Parent = saveFish,
+			})
+
+			v4 = TextButton3
+			fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = TextButton3 })
+			fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton3 })
+
+			TextButton3.MouseButton1Click:Connect(function()
+				flag7 = not flag7
+
+				if flag7 then
+					TextButton3.Text = "Activate Safe Mode  [ ON ]"
+					TextButton3.BackgroundColor3 = Color3.fromRGB(20, 140, 70)
+					fn5("Safe Mode ON", "success")
+					local character = localPlayer.Character
+					character = character and character:FindFirstChildOfClass("Humanoid")
+
+					if character then
+						fn36(character)
+					end
+				else
+					TextButton3.Text = "Activate Safe Mode  [ OFF ]"
+					TextButton3.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+					fn5("Safe Mode OFF", "error")
+				end
+			end)
+		end
+
+		fn38()
+		local fishManger = tbl14["Fish Manger"]
+
+		fn6(fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 26),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Fish Manager",
+			TextColor3 = tbl.Text,
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = fishManger,
+		}), 0.4)
+
+		local TextLabel4 = fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 24),
+			Position = UDim2.fromOffset(0, 32),
+			BackgroundTransparency = 1,
+			Font = gothamBold,
+			Text = "تسكيب السمك: OFF",
+			TextColor3 = tbl.Red,
+			TextSize = 16,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = fishManger,
+		})
+
+		v11 = TextLabel4
+
+		local ScrollingFrame2 = fn("ScrollingFrame", {
+			Size = UDim2.new(1, 0, 0, 155),
+			Position = UDim2.fromOffset(0, 60),
+			BackgroundColor3 = tbl.Panel,
+			BorderSizePixel = 0,
+			ScrollBarThickness = 4,
+			ScrollBarImageColor3 = tbl.AccentDim,
+			CanvasSize = UDim2.fromOffset(0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			Parent = fishManger,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = ScrollingFrame2 })
+
+		fn("UIPadding", {
+			PaddingTop = UDim.new(0, 6),
+			PaddingLeft = UDim.new(0, 6),
+			PaddingRight = UDim.new(0, 6),
+			Parent = ScrollingFrame2,
+		})
+
+		fn("UIListLayout", { Padding = UDim.new(0, 5), Parent = ScrollingFrame2 })
+
+		local function fn39(arg, arg2)
+			if tbl5[arg2] then
+				arg.BackgroundColor3 = Color3.fromRGB(140, 30, 30)
+				arg.Text = "  ⏭️  " .. arg2 .. "  [يتخطى]"
+				arg.TextColor3 = tbl.Text
+			else
+				arg.BackgroundColor3 = tbl.PanelLight
+				arg.Text = "  ⬜  " .. arg2 .. "  [يصيد]"
+				arg.TextColor3 = tbl.SubText
+			end
+		end
+
+		local v22 = fn15()
+
+		for _, v23 in ipairs(v22) do
+			local TextButton = fn("TextButton", {
+				Size = UDim2.new(1, -4, 0, 32),
+				BackgroundColor3 = tbl.PanelLight,
+				AutoButtonColor = false,
+				Font = gotham,
+				Text = "",
+				TextSize = 14,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = ScrollingFrame2,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 7), Parent = TextButton })
+			fn39(TextButton, v23)
+			tbl10[v23] = TextButton
+
+			TextButton.MouseButton1Click:Connect(function()
+				tbl5[v23] = not tbl5[v23]
+				fn39(TextButton, v23)
+			end)
+		end
+
+		__rg_skipLock = false
+
+		local TextButton = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 34),
+			Position = UDim2.fromOffset(0, 224),
+			BackgroundColor3 = Color3.fromRGB(0, 140, 60),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "تشغيل تسكيب السمك",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = fishManger,
+		})
+
+		v12 = TextButton
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton })
+
+		TextButton.MouseButton1Click:Connect(function()
+			if __rg_skipLock then
+				return
+			end
+			__rg_skipLock = true
+			flag4 = not flag4
+			flag5 = false
+
+			if flag4 then
+				TextButton.Text = "إيقاف تسكيب السمك"
+				TextButton.BackgroundColor3 = Color3.fromRGB(180, 40, 40)
+				TextLabel4.Text = "تسكيب السمك: ON"
+				TextLabel4.TextColor3 = tbl.Green
+				fn5("تسكيب السمك ON", "success")
+			else
+				TextButton.Text = "تشغيل تسكيب السمك"
+				TextButton.BackgroundColor3 = Color3.fromRGB(0, 140, 60)
+				TextLabel4.Text = "تسكيب السمك: OFF"
+				TextLabel4.TextColor3 = tbl.Red
+				fn5("تسكيب السمك OFF", "error")
+			end
+
+			task.delay(0.3, function()
+				__rg_skipLock = false
+			end)
+		end)
+
+		local TextButton2 = fn("TextButton", {
+			Size = UDim2.new(0.48, 0, 0, 28),
+			Position = UDim2.fromOffset(0, 266),
+			BackgroundColor3 = tbl.Blue,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "تحديد الكل للتسكيب",
+			TextColor3 = tbl.Text,
+			TextSize = 12,
+			Parent = fishManger,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton2 })
+
+		local TextButton3 = fn("TextButton", {
+			Size = UDim2.new(0.48, 0, 0, 28),
+			Position = UDim2.new(0.52, 0, 0, 266),
+			BackgroundColor3 = Color3.fromRGB(160, 40, 40),
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "إلغاء الكل",
+			TextColor3 = tbl.Text,
+			TextSize = 12,
+			Parent = fishManger,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton3 })
+
+		TextButton2.MouseButton1Click:Connect(function()
+			for k in pairs(tbl5) do
+				tbl5[k] = true
+			end
+
+			for k, v23 in pairs(tbl10) do
+				if v23 and v23.Parent then
+					fn39(v23, k)
+				end
+			end
+		end)
+
+		TextButton3.MouseButton1Click:Connect(function()
+			for k in pairs(tbl5) do
+				tbl5[k] = false
+			end
+
+			for k, v23 in pairs(tbl10) do
+				if v23 and v23.Parent then
+					fn39(v23, k)
+				end
+			end
+		end)
+
+		local TextLabel5 = fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 16),
+			Position = UDim2.fromOffset(0, 304),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "وقت التسكيب: 0s",
+			TextColor3 = tbl.Text,
+			TextSize = 17,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = fishManger,
+		})
+
+		v14 = TextLabel5
+
+		local Frame9 = fn("Frame", {
+			Name = "SliderTrack",
+			Size = UDim2.new(1, 0, 0, 10),
+			Position = UDim2.fromOffset(0, 326),
+			BackgroundColor3 = tbl.PanelLight,
+			BorderSizePixel = 0,
+			Active = true,
+			Parent = fishManger,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame9 })
+
+		local Frame10 = fn("Frame", {
+			Name = "SliderFill",
+			Size = UDim2.new(0, 0, 1, 0),
+			BackgroundColor3 = tbl.Accent,
+			BorderSizePixel = 0,
+			Parent = Frame9,
+		})
+
+		v15 = Frame10
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame10 })
+
+		local Frame11 = fn("Frame", {
+			Name = "SliderKnob",
+			Size = UDim2.fromOffset(18, 18),
+			Position = UDim2.new(0, -4, 0.5, 0),
+			AnchorPoint = Vector2.new(0, 0.5),
+			BackgroundColor3 = tbl.Text,
+			BorderSizePixel = 0,
+			ZIndex = 5,
+			Active = true,
+			Parent = Frame9,
+		})
+
+		v16 = Frame11
+		fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame11 })
+		fn("UIStroke", { Color = tbl.Accent, Thickness = 2, Parent = Frame11 })
+		local n6 = 0
+		local n7 = 15
+		local flag15 = false
+
+		local function fn40(arg)
+			local n8 = math.clamp((arg - n6) / (n7 - n6), 0, 1)
+			Frame10.Size = UDim2.new(n8, 0, 1, 0)
+			Frame11.Position = UDim2.new(n8, -9, 0.5, 0)
+			TextLabel5.Text = string.format("وقت التسكيب: %ds", math.floor(arg + 0.5))
+			n = math.floor(arg + 0.5)
+		end
+
+		fn40(0)
+
+		local function fn41(arg)
+			local n8 = n7 - n6
+			return n6 + math.clamp((arg - Frame9.AbsolutePosition.X) / Frame9.AbsoluteSize.X, 0, 1) * n8
+		end
+
+		Frame9.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = true
+				flag2 = true
+				fn40(fn41(input.Position.X))
+			end
+		end)
+
+		Frame11.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = true
+				flag2 = true
+			end
+		end)
+
+		UserInputService.InputChanged:Connect(function(input)
+			if flag15 and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+				fn40(fn41(input.Position.X))
+			end
+		end)
+
+		UserInputService.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				flag15 = false
+				flag2 = false
+			end
+		end)
+
+		local TextButton4 = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 646),
+			BackgroundColor3 = Color3.fromRGB(180, 120, 20),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "💰 AutoSell  [ OFF ]",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = fishManger,
+		})
+
+		v13 = TextButton4
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton4 })
+
+		TextButton4.MouseButton1Click:Connect(function()
+			flag9 = not flag9
+
+			if flag9 then
+				TextButton4.Text = "💰 AutoSell  [ ON ]"
+				TextButton4.BackgroundColor3 = Color3.fromRGB(20, 140, 70)
+				fn5("💰 AutoSell ON — قرب من نقطة البيع", "success")
+			else
+				TextButton4.Text = "💰 AutoSell  [ OFF ]"
+				TextButton4.BackgroundColor3 = Color3.fromRGB(180, 120, 20)
+				flag10 = false
+				fn5("AutoSell OFF", "error")
+			end
+		end)
+
+		local TextButton5 = fn("TextButton", {
+			Name = "AutoBuyBaitBtn",
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 690),
+			BackgroundColor3 = Color3.fromRGB(40, 90, 120),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "شراء طعم تلقائي  [ OFF ]",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = fishManger,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton5 })
+
+		TextButton5.MouseButton1Click:Connect(function()
+			autoBuyBaitEnabled = not autoBuyBaitEnabled
+
+			if autoBuyBaitEnabled then
+				TextButton5.Text = "شراء طعم تلقائي  [ ON ]"
+				TextButton5.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+				fn5("شراء طعم ON — اقرب من المحل", "success")
+			else
+				TextButton5.Text = "شراء طعم تلقائي  [ OFF ]"
+				TextButton5.BackgroundColor3 = Color3.fromRGB(40, 90, 120)
+				fn5("شراء طعم OFF", "error")
+			end
+		end)
+	end
+
+	fn33()
+
+	local function fn34()
+		local statistics = tbl14.Statistics
+
+		fn6(fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 26),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Statistics",
+			TextColor3 = tbl.Text,
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = statistics,
+		}), 0.4)
+
+		local TextLabel4 = fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 36),
+			BackgroundColor3 = tbl.Panel,
+			Font = gothamBold,
+			Text = "🐟 Total Fish: 0",
+			TextColor3 = tbl.Gold,
+			TextSize = 16,
+			Parent = statistics,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextLabel4 })
+		fn("UIStroke", { Color = tbl.Gold, Thickness = 1, Transparency = 0.5, Parent = TextLabel4 })
+
+		local ScrollingFrame2 = fn("ScrollingFrame", {
+			Size = UDim2.new(1, 0, 0, 280),
+			Position = UDim2.fromOffset(0, 82),
+			BackgroundColor3 = tbl.Panel,
+			BorderSizePixel = 0,
+			ScrollBarThickness = 4,
+			CanvasSize = UDim2.fromOffset(0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			Parent = statistics,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = ScrollingFrame2 })
+
+		fn("UIPadding", {
+			PaddingTop = UDim.new(0, 6),
+			PaddingLeft = UDim.new(0, 6),
+			PaddingRight = UDim.new(0, 6),
+			Parent = ScrollingFrame2,
+		})
+
+		fn("UIListLayout", { Padding = UDim.new(0, 5), Parent = ScrollingFrame2 })
+
+		local function fn35()
+			TextLabel4.Text = "🐟 Total Fish: " .. tbl8.totalFish
+
+			for _, v22 in ScrollingFrame2:GetChildren() do
+				if v22:IsA("TextLabel") or v22:IsA("TextButton") or v22:IsA("Frame") then
+					v22:Destroy()
+				end
+			end
+
+			local tbl15 = {}
+
+			for k, v22 in pairs(tbl8.fishCaught) do
+				if v22 > 0 then
+					table.insert(tbl15, { name = k, count = v22 })
+				end
+			end
+
+			table.sort(tbl15, function(arg, arg2)
+				return arg.count > arg2.count
+			end)
+
+			if #tbl15 == 0 then
+				fn("TextLabel", {
+					Size = UDim2.new(1, -4, 0, 40),
+					BackgroundTransparency = 1,
+					Font = gotham,
+					Text = "No fish caught yet...",
+					TextColor3 = tbl.SubText,
+					TextSize = 14,
+					Parent = ScrollingFrame2,
+				})
+			else
+				for _, v22 in ipairs(tbl15) do
+					local Frame9 = fn("Frame", {
+						Size = UDim2.new(1, -4, 0, 44),
+						BackgroundColor3 = tbl.PanelLight,
+						BorderSizePixel = 0,
+						Parent = ScrollingFrame2,
+					})
+
+					fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = Frame9 })
+
+					local ImageLabel2 = fn("ImageLabel", {
+						Size = UDim2.fromOffset(32, 32),
+						Position = UDim2.fromOffset(6, 6),
+						BackgroundColor3 = tbl.Panel,
+						BorderSizePixel = 0,
+						ScaleType = Enum.ScaleType.Crop,
+						Parent = Frame9,
+					})
+
+					fn("UICorner", { CornerRadius = UDim.new(0, 6), Parent = ImageLabel2 })
+					local v23 = tbl4[v22.name]
+
+					if v23 then
+						string.match(v23, "%d+")
+						ImageLabel2.Image = fn12(v22.name) or v23
+					end
+
+					fn("TextLabel", {
+						Size = UDim2.new(1, -110, 1, 0),
+						Position = UDim2.fromOffset(44, 0),
+						BackgroundTransparency = 1,
+						Font = gotham,
+						Text = v22.name,
+						TextColor3 = tbl.Text,
+						TextSize = 14,
+						TextXAlignment = Enum.TextXAlignment.Left,
+						Parent = Frame9,
+					})
+
+					fn("TextLabel", {
+						Size = UDim2.new(0, 58, 1, 0),
+						Position = UDim2.new(1, -64, 0, 0),
+						BackgroundTransparency = 1,
+						Font = gothamBold,
+						Text = "× " .. v22.count,
+						TextColor3 = tbl.Gold,
+						TextSize = 14,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						Parent = Frame9,
+					})
+				end
+			end
+		end
+
+		v5 = fn35
+
+		local TextButton = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 38),
+			Position = UDim2.fromOffset(0, 375),
+			BackgroundColor3 = tbl.Blue,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "🔄 تحديث الإحصائيات",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = statistics,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton })
+
+		TextButton.MouseButton1Click:Connect(function()
+			fn35()
+			fn5("✅ Stats refreshed", "success")
+		end)
+
+		fn35()
+	end
+
+	fn34()
+
+
+	local function fn36()
+		local webhookDiscord = tbl14["Webhook Discord"]
+
+		fn6(fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 26),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Webhook Discord",
+			TextColor3 = tbl.Text,
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = webhookDiscord,
+		}), 0.4)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 18),
+			Position = UDim2.fromOffset(0, 32),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "اختر الأسماك للإشعار:",
+			TextColor3 = tbl.SubText,
+			TextSize = 13,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = webhookDiscord,
+		})
+
+		local ScrollingFrame2 = fn("ScrollingFrame", {
+			Size = UDim2.new(1, 0, 0, 150),
+			Position = UDim2.fromOffset(0, 54),
+			BackgroundColor3 = tbl.Panel,
+			BorderSizePixel = 0,
+			ScrollBarThickness = 4,
+			CanvasSize = UDim2.fromOffset(0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			Parent = webhookDiscord,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = ScrollingFrame2 })
+
+		fn("UIPadding", {
+			PaddingTop = UDim.new(0, 5),
+			PaddingLeft = UDim.new(0, 5),
+			PaddingRight = UDim.new(0, 5),
+			Parent = ScrollingFrame2,
+		})
+
+		fn("UIListLayout", { Padding = UDim.new(0, 4), Parent = ScrollingFrame2 })
+
+		local function fn37(arg, arg2)
+			if tbl12[arg2] then
+				arg.BackgroundColor3 = tbl.GreenDim
+				arg.Text = "  ✅  " .. arg2
+				arg.TextColor3 = tbl.Green
+			else
+				arg.BackgroundColor3 = tbl.PanelLight
+				arg.Text = "  ⬜  " .. arg2
+				arg.TextColor3 = tbl.SubText
+			end
+		end
+
+		local v22 = fn15()
+
+		for _, v23 in ipairs(v22) do
+			local TextButton = fn("TextButton", {
+				Size = UDim2.new(1, -4, 0, 28),
+				BackgroundColor3 = tbl.PanelLight,
+				AutoButtonColor = false,
+				Font = gotham,
+				Text = "",
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = ScrollingFrame2,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 6), Parent = TextButton })
+			fn37(TextButton, v23)
+			tbl11[v23] = TextButton
+
+			TextButton.MouseButton1Click:Connect(function()
+				tbl12[v23] = not tbl12[v23]
+				fn37(TextButton, v23)
+			end)
+		end
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 18),
+			Position = UDim2.fromOffset(0, 216),
+			BackgroundTransparency = 1,
+			Font = gothamMedium,
+			Text = "Webhook URL:",
+			TextColor3 = tbl.SubText,
+			TextSize = 13,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = webhookDiscord,
+		})
+
+		local TextBox = fn("TextBox", {
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 238),
+			BackgroundColor3 = tbl.Panel,
+			Font = gotham,
+			Text = "",
+			PlaceholderText = "https://discord.com/api/webhooks/...",
+			PlaceholderColor3 = tbl.SubText,
+			TextColor3 = tbl.Text,
+			TextSize = 12,
+			ClearTextOnFocus = false,
+			Parent = webhookDiscord,
+		})
+
+		v17 = TextBox
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextBox })
+		fn("UIPadding", { PaddingLeft = UDim.new(0, 8), Parent = TextBox })
+		fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextBox })
+
+		TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+			text = TextBox.Text
+		end)
+
+		local TextButton = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 284),
+			BackgroundColor3 = tbl.Blue,
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "🔗 تحقق من الاتصال",
+			TextColor3 = tbl.Text,
+			TextSize = 13,
+			Parent = webhookDiscord,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton })
+
+		TextButton.MouseButton1Click:Connect(function()
+			if text == "" or #text < 20 then
+				fn5("❌ حط رابط الويب هوك أولاً", "error")
+				return
+			end
+			TextButton.Text = "⏳ جاري التحقق..."
+
+			task.spawn(function()
+				if fn30("✅ Connection test from RXZ BLOCK SPIN") then
+					fn5("✅ الاتصال ناجح", "success")
+				else
+					fn5("❌ فشل الاتصال، تأكد من الرابط", "error")
+				end
+
+				TextButton.Text = "🔗 تحقق من الاتصال"
+			end)
+		end)
+
+		local TextButton2 = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 40),
+			Position = UDim2.fromOffset(0, 330),
+			BackgroundColor3 = Color3.fromRGB(80, 80, 100),
+			AutoButtonColor = false,
+			Font = gothamBold,
+			Text = "🔔 إرسال تلقائي  [ OFF ]",
+			TextColor3 = tbl.Text,
+			TextSize = 14,
+			Parent = webhookDiscord,
+		})
+
+		v18 = TextButton2
+		fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton2 })
+
+		TextButton2.MouseButton1Click:Connect(function()
+			flag14 = not flag14
+
+			if flag14 then
+				TextButton2.Text = "🔔 إرسال تلقائي  [ ON ]"
+				TextButton2.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+				fn5("Webhook Auto Notify ON", "success")
+			else
+				TextButton2.Text = "🔔 إرسال تلقائي  [ OFF ]"
+				TextButton2.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+				fn5("Webhook Auto Notify OFF", "error")
+			end
+		end)
+
+		local TextButton3 = fn("TextButton", {
+			Size = UDim2.new(1, 0, 0, 36),
+			Position = UDim2.fromOffset(0, 380),
+			BackgroundColor3 = Color3.fromRGB(100, 60, 200),
+			AutoButtonColor = false,
+			Font = gothamMedium,
+			Text = "📤 إرسال إشعار يدوي (للأسماك المحددة)",
+			TextColor3 = tbl.Text,
+			TextSize = 13,
+			Parent = webhookDiscord,
+		})
+
+		fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton3 })
+
+		TextButton3.MouseButton1Click:Connect(function()
+			if text == "" then
+				fn5("❌ حط رابط الويب هوك", "error")
+				return
+			end
+			local tbl15 = {}
+
+			for k, v23 in pairs(tbl12) do
+				if v23 then
+					table.insert(tbl15, k)
+				end
+			end
+
+			if #tbl15 == 0 then
+				fn5("❌ حدد سمكة واحدة على الأقل", "error")
+				return
+			end
+
+			for _, v23 in ipairs(tbl15) do
+				fn30("i got " .. string.lower(v23))
+				task.wait(0.3)
+			end
+
+			fn5("✅ تم إرسال الإشعارات", "success")
+		end)
+
+		fn("TextLabel", {
+			Size = UDim2.new(1, 0, 0, 30),
+			Position = UDim2.fromOffset(0, 425),
+			BackgroundTransparency = 1,
+			Font = gotham,
+			Text = "مثال الرسالة: i got tuna",
+			TextColor3 = tbl.SubText,
+			TextSize = 12,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = webhookDiscord,
+		})
+	end
+
+	fn36()
+
+	local function fn37()
+		local devReal = tbl14["Dev'Real"]
+
+		if devReal then
+			local Frame9 = fn("Frame", {
+				Name = "DevContainer",
+				Size = UDim2.new(1, 0, 0, 180),
+				Position = UDim2.new(0, 0, 0, 40),
+				BackgroundTransparency = 1,
+				ZIndex = 2,
+				Parent = devReal,
+			})
+
+			fn("UIListLayout", {
+				FillDirection = Enum.FillDirection.Horizontal,
+				HorizontalAlignment = Enum.HorizontalAlignment.Center,
+				VerticalAlignment = Enum.VerticalAlignment.Top,
+				Padding = UDim.new(0, 30),
+				Parent = Frame9,
+			})
+
+			local function fn38(arg, arg2, arg3)
+				local Frame10 = fn("Frame", {
+					Name = arg .. "Card",
+					Size = UDim2.fromOffset(130, 160),
+					BackgroundColor3 = tbl.Panel,
+					BorderSizePixel = 0,
+					ClipsDescendants = true,
+					ZIndex = 2,
+					Parent = Frame9,
+				})
+
+				fn("UICorner", { CornerRadius = UDim.new(0, 12), Parent = Frame10 })
+				fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = Frame10 })
+
+				local ImageLabel2 = fn("ImageLabel", {
+					Name = "Avatar",
+					Size = UDim2.fromOffset(80, 80),
+					Position = UDim2.new(0.5, 0, 0, 15),
+					AnchorPoint = Vector2.new(0.5, 0),
+					BackgroundColor3 = tbl.PanelLight,
+					Image = arg2,
+					ScaleType = Enum.ScaleType.Crop,
+					ZIndex = 3,
+					Parent = Frame10,
+				})
+
+				fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = ImageLabel2 })
+				fn("UIStroke", { Color = tbl.Accent, Thickness = 2, Parent = ImageLabel2 })
+
+				fn6(fn("TextLabel", {
+					Size = UDim2.new(1, 0, 0, 20),
+					Position = UDim2.new(0, 0, 0, 105),
+					BackgroundTransparency = 1,
+					Font = gothamBold,
+					Text = arg,
+					TextColor3 = tbl.Text,
+					TextSize = 14,
+					ZIndex = 3,
+					Parent = Frame10,
+				}), 0.4)
+
+				local Frame11 = fn("Frame", {
+					Name = "DiscordBadge",
+					Size = UDim2.fromOffset(85, 18),
+					Position = UDim2.new(0.5, 0, 0, 130),
+					AnchorPoint = Vector2.new(0.5, 0),
+					BackgroundColor3 = tbl.PanelLight,
+					BorderSizePixel = 0,
+					ZIndex = 3,
+					Parent = Frame10,
+				})
+
+				fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame11 })
+				fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Transparency = 0.5, Parent = Frame11 })
+
+				fn("UIListLayout", {
+					FillDirection = Enum.FillDirection.Horizontal,
+					HorizontalAlignment = Enum.HorizontalAlignment.Center,
+					VerticalAlignment = Enum.VerticalAlignment.Center,
+					Padding = UDim.new(0, 5),
+					Parent = Frame11,
+				})
+
+				fn("ImageLabel", {
+					Size = UDim2.fromOffset(12, 12),
+					BackgroundTransparency = 1,
+					Image = str,
+					ZIndex = 4,
+					Parent = Frame11,
+				})
+
+				local TextLabel4 = fn("TextLabel", {
+					Size = UDim2.new(0, 60, 1, 0),
+					BackgroundTransparency = 1,
+					Font = gotham,
+					Text = "",
+					TextColor3 = tbl.SubText,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					TextSize = 11,
+					ZIndex = 4,
+					Parent = Frame11,
+				})
+
+				task.spawn(function()
+					for i = 1, #arg3 do
+						if not TextLabel4.Parent then
+							return
+						end
+						TextLabel4.Text = string.sub(arg3, 1, i)
+						task.wait(0.1)
+					end
+				end)
+			end
+
+		end
+	end
+
+	fn37()
+
+	local function fn38()
+		local v22 = tbl14["تنقيص الحجم"]
+
+		if v22 then
+			fn6(fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 26),
+				BackgroundTransparency = 1,
+				Font = gothamMedium,
+				Text = "تنقيص الحجم",
+				TextColor3 = tbl.Text,
+				TextSize = 18,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = v22,
+			}), 0.4)
+
+			fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 42),
+				Position = UDim2.fromOffset(0, 32),
+				BackgroundTransparency = 1,
+				Font = gotham,
+				Text = "حرّك السلايدر عشان تصغّر الواجهة تدريجيًا.\nكل العناصر (بما فيهم أزرار اليمين) بتصغر مع بعض وتفضل واضحة.",
+				TextColor3 = tbl.SubText,
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				TextYAlignment = Enum.TextYAlignment.Top,
+				Parent = v22,
+			})
+
+			local TextLabel4 = fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 22),
+				Position = UDim2.fromOffset(0, 85),
+				BackgroundTransparency = 1,
+				Font = gothamBold,
+				Text = "الحجم الحالي: 100%",
+				TextColor3 = tbl.Accent,
+				TextSize = 16,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = v22,
+			})
+
+			local Frame9 = fn("Frame", {
+				Name = "SliderTrack",
+				Size = UDim2.new(1, 0, 0, 12),
+				Position = UDim2.fromOffset(0, 120),
+				BackgroundColor3 = tbl.PanelLight,
+				BorderSizePixel = 0,
+				Active = true,
+				Parent = v22,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame9 })
+
+			local Frame10 = fn("Frame", {
+				Name = "SliderFill",
+				Size = UDim2.new(1, 0, 1, 0),
+				BackgroundColor3 = tbl.Accent,
+				BorderSizePixel = 0,
+				Parent = Frame9,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame10 })
+
+			local Frame11 = fn("Frame", {
+				Name = "SliderKnob",
+				Size = UDim2.fromOffset(20, 20),
+				Position = UDim2.new(1, -10, 0.5, 0),
+				AnchorPoint = Vector2.new(0, 0.5),
+				BackgroundColor3 = tbl.Text,
+				Active = true,
+				BorderSizePixel = 0,
+				ZIndex = 5,
+				Parent = Frame9,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(1, 0), Parent = Frame11 })
+			fn("UIStroke", { Color = tbl.Accent, Thickness = 2, Parent = Frame11 })
+			local n6 = 0.65
+			local n7 = 1
+			local scale = 1
+			local flag15 = false
+
+			local function fn39(arg)
+				scale = math.clamp(arg, 0.65, 1)
+				uiScale.Scale = scale
+				TextLabel4.Text = "الحجم الحالي: " .. math.floor(scale * 100 + 0.5) .. "%"
+				local n8 = (scale - n6) / (n7 - n6)
+				Frame10.Size = UDim2.new(n8, 0, 1, 0)
+				Frame11.Position = UDim2.new(n8, -10, 0.5, 0)
+			end
+
+			v20 = fn39
+			fn39(1)
+
+			local function fn40(arg)
+				local x = Frame9.AbsolutePosition.X
+				local x2 = Frame9.AbsoluteSize.X
+				if x2 <= 0 then
+					return scale
+				end
+				return n6 + math.clamp((arg - x) / x2, 0, 1) * (n7 - n6)
+			end
+
+			Frame9.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					flag15 = true
+					flag2 = true
+					fn39(fn40(input.Position.X))
+				end
+			end)
+
+			Frame11.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					flag15 = true
+					flag2 = true
+				end
+			end)
+
+			UserInputService.InputChanged:Connect(function(input)
+				if flag15 and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+					fn39(fn40(input.Position.X))
+				end
+			end)
+
+			UserInputService.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					flag15 = false
+					flag2 = false
+				end
+			end)
+
+			local Frame12 = fn("Frame", {
+				Size = UDim2.new(1, 0, 0, 40),
+				Position = UDim2.fromOffset(0, 155),
+				BackgroundTransparency = 1,
+				Parent = v22,
+			})
+
+			fn("UIListLayout", {
+				FillDirection = Enum.FillDirection.Horizontal,
+				HorizontalAlignment = Enum.HorizontalAlignment.Center,
+				VerticalAlignment = Enum.VerticalAlignment.Center,
+				Padding = UDim.new(0, 12),
+				Parent = Frame12,
+			})
+
+			local function fn41(arg, arg2, arg3)
+				local TextButton = fn("TextButton", {
+					Size = UDim2.fromOffset(90, 36),
+					BackgroundColor3 = arg2 or tbl.PanelLight,
+					AutoButtonColor = false,
+					Font = gothamMedium,
+					Text = arg,
+					TextColor3 = tbl.Text,
+					TextSize = 14,
+					Parent = Frame12,
+				})
+
+				fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextButton })
+				fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextButton })
+				TextButton.MouseButton1Click:Connect(arg3)
+				return TextButton
+			end
+
+			fn41("− أصغر", tbl.PanelLight, function()
+				fn39(scale - 0.05)
+				fn5("الحجم: " .. math.floor(scale * 100 + 0.5) .. "%", "success")
+			end)
+
+			fn41("افتراضي", tbl.Blue, function()
+				fn39(1)
+				fn5("تم الرجوع للحجم الأصلي", "success")
+			end)
+
+			fn41("+ أكبر", tbl.PanelLight, function()
+				fn39(scale + 0.05)
+				fn5("الحجم: " .. math.floor(scale * 100 + 0.5) .. "%", "success")
+			end)
+
+			fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 55),
+				Position = UDim2.fromOffset(0, 210),
+				BackgroundTransparency = 1,
+				Font = gotham,
+				Text = "ملاحظة: أقل حجم 65% عشان كل النصوص والأزرار تفضل واضحة ومقروءة.\nأزرار الـ (—) و (×) على اليمين هتصغر تلقائيًا مع الواجهة.",
+				TextColor3 = tbl.SubText,
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				TextYAlignment = Enum.TextYAlignment.Top,
+				Parent = v22,
+			})
+		end
+	end
+
+	fn38()
+
+	local function fn39()
+		local config = tbl14.Config
+
+		if config then
+			fn6(fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 26),
+				BackgroundTransparency = 1,
+				Font = gothamMedium,
+				Text = "Config - حفظ الإعدادات",
+				TextColor3 = tbl.Text,
+				TextSize = 18,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = config,
+			}), 0.4)
+
+			fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 18),
+				Position = UDim2.fromOffset(0, 34),
+				BackgroundTransparency = 1,
+				Font = gothamMedium,
+				Text = "اسم الكونفيغ:",
+				TextColor3 = tbl.SubText,
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = config,
+			})
+
+			local TextBox = fn("TextBox", {
+				Size = UDim2.new(1, 0, 0, 36),
+				Position = UDim2.fromOffset(0, 54),
+				BackgroundColor3 = tbl.Panel,
+				Font = gotham,
+				Text = "",
+				PlaceholderText = "مثال: إعداداتي / Farm1 ...",
+				PlaceholderColor3 = tbl.SubText,
+				TextColor3 = tbl.Text,
+				TextSize = 14,
+				ClearTextOnFocus = false,
+				Parent = config,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = TextBox })
+			fn("UIPadding", { PaddingLeft = UDim.new(0, 10), Parent = TextBox })
+			fn("UIStroke", { Color = tbl.Stroke, Thickness = 1, Parent = TextBox })
+
+			local TextButton = fn("TextButton", {
+				Size = UDim2.new(1, 0, 0, 40),
+				Position = UDim2.fromOffset(0, 100),
+				BackgroundColor3 = Color3.fromRGB(20, 140, 70),
+				AutoButtonColor = false,
+				Font = gothamBold,
+				Text = "💾 حفظ الإعدادات الحالية",
+				TextColor3 = tbl.Text,
+				TextSize = 14,
+				Parent = config,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 9), Parent = TextButton })
+
+			fn("TextLabel", {
+				Size = UDim2.new(1, 0, 0, 18),
+				Position = UDim2.fromOffset(0, 150),
+				BackgroundTransparency = 1,
+				Font = gothamMedium,
+				Text = "الكونفيجات المحفوظة:",
+				TextColor3 = tbl.SubText,
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = config,
+			})
+
+			local ScrollingFrame2 = fn("ScrollingFrame", {
+				Size = UDim2.new(1, 0, 0, 220),
+				Position = UDim2.fromOffset(0, 172),
+				BackgroundColor3 = tbl.Panel,
+				BorderSizePixel = 0,
+				ScrollBarThickness = 4,
+				ScrollBarImageColor3 = tbl.AccentDim,
+				CanvasSize = UDim2.fromOffset(0, 0),
+				AutomaticCanvasSize = Enum.AutomaticSize.Y,
+				Parent = config,
+			})
+
+			fn("UICorner", { CornerRadius = UDim.new(0, 10), Parent = ScrollingFrame2 })
+
+			fn("UIPadding", {
+				PaddingTop = UDim.new(0, 6),
+				PaddingLeft = UDim.new(0, 6),
+				PaddingRight = UDim.new(0, 6),
+				Parent = ScrollingFrame2,
+			})
+
+			fn("UIListLayout", { Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.Name, Parent = ScrollingFrame2 })
+
+			local function fn40()
+				local tbl15 = {}
+
+				for k, v22 in pairs(tbl5) do
+					tbl15[k] = v22
+				end
+
+				local tbl16 = {}
+
+				for k, v22 in pairs(tbl12) do
+					tbl16[k] = v22
+				end
+
+				local function fn41()
+					local tbl17 = {}
+
+					for k, v22 in pairs(tbl6) do
+						tbl17[k] = v22
+					end
+
+					return tbl17
+				end
+
+				return {
+					multiSpotEnabled = multiSpotEnabled,
+					catchesPerSpot = catchesPerSpot,
+					autoSkipSliderEnabled = flag11,
+					currentKey = q.Name,
+					fishList = tbl15,
+					skipFishSelected = tbl15,
+					skipBadFishEnabled = flag4,
+					skipDelay = n,
+					autoSellEnabled = flag9,
+					saveFishSelected = fn41(),
+					safeModeEnabled = flag7,
+					webhookFishSelected = tbl16,
+					webhookURL = text,
+					webhookAutoNotify = flag14,
+					scale = uiScale and uiScale.Scale or 1,
+					autoFarmActive = flag6,
+				}
+			end
+
+			local function fn41(arg)
+				if not arg or type(arg) ~= "table" then
+					return
+				end
+				multiSpotEnabled = true
+				flag11 = arg.autoSkipSliderEnabled == true
+
+				if v7 then
+					if flag11 then
+						v7.Text = "تسكيب السلايدر تلقائي  [ ON ]"
+						v7.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+					else
+						v7.Text = "تسكيب السلايدر تلقائي  [ OFF ]"
+						v7.BackgroundColor3 = Color3.fromRGB(80, 60, 120)
+					end
+				end
+
+				if type(arg.currentKey) == "string" then
+					local ok, result = pcall(function()
+						return Enum.KeyCode[arg.currentKey]
+					end)
+
+					if ok and result then
+						q = result
+
+						if v8 then
+							v8.Text = arg.currentKey
+						end
+					end
+				end
+
+				local skipFishSelected = arg.skipFishSelected or arg.fishList
+
+				if type(skipFishSelected) == "table" then
+					for k, v22 in pairs(skipFishSelected) do
+						if tbl5[k] ~= nil then
+							tbl5[k] = v22 == true
+						end
+					end
+
+					for k, v22 in pairs(tbl10) do
+						if v22 and v22.Parent then
+							if tbl5[k] then
+								v22.BackgroundColor3 = Color3.fromRGB(140, 30, 30)
+								v22.Text = "  ⏭️  " .. k .. "  [يتخطى]"
+								v22.TextColor3 = tbl.Text
+							else
+								v22.BackgroundColor3 = tbl.PanelLight
+								v22.Text = "  ⬜  " .. k .. "  [يصيد]"
+								v22.TextColor3 = tbl.SubText
+							end
+						end
+					end
+				end
+
+				flag4 = arg.skipBadFishEnabled == true or arg.fishAutoDropEnabled == true
+
+				if v12 and v11 then
+					if flag4 then
+						v12.Text = "إيقاف تسكيب السمك"
+						v12.BackgroundColor3 = Color3.fromRGB(180, 40, 40)
+						v11.Text = "تسكيب السمك: ON"
+						v11.TextColor3 = tbl.Green
+					else
+						v12.Text = "تشغيل تسكيب السمك"
+						v12.BackgroundColor3 = Color3.fromRGB(0, 140, 60)
+						v11.Text = "تسكيب السمك: OFF"
+						v11.TextColor3 = tbl.Red
+					end
+				end
+
+				local skipDelay = arg.skipDelay or arg.dropDelay
+
+				if type(skipDelay) == "number" then
+					n = math.clamp(math.floor(skipDelay + 0.5), 0, 15)
+
+					if v14 and v15 and v16 then
+						local n6 = n / 15
+						v15.Size = UDim2.new(n6, 0, 1, 0)
+						v16.Position = UDim2.new(n6, -9, 0.5, 0)
+						v14.Text = string.format("وقت التسكيب: %ds", n)
+					end
+				end
+
+				if type(arg.saveFishSelected) == "table" then
+					for k, v22 in pairs(arg.saveFishSelected) do
+						if tbl6[k] ~= nil then
+							tbl6[k] = v22 == true
+						end
+					end
+
+					for k, v22 in pairs(tbl7) do
+						if v22 and v22.Parent then
+							if tbl6[k] then
+								v22.BackgroundColor3 = tbl.GreenDim
+								v22.Text = "  ✅  " .. k .. "  [محفوظ]"
+								v22.TextColor3 = tbl.Green
+							else
+								v22.BackgroundColor3 = tbl.PanelLight
+								v22.Text = "  ⬜  " .. k
+								v22.TextColor3 = tbl.SubText
+							end
+						end
+					end
+				end
+
+				flag7 = arg.safeModeEnabled == true
+
+				if v4 then
+					if flag7 then
+						v4.Text = "Activate Safe Mode  [ ON ]"
+						v4.BackgroundColor3 = Color3.fromRGB(20, 140, 70)
+					else
+						v4.Text = "Activate Safe Mode  [ OFF ]"
+						v4.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+					end
+				end
+
+				flag9 = arg.autoSellEnabled == true
+
+				if v13 then
+					if flag9 then
+						v13.Text = "💰 AutoSell  [ ON ]"
+						v13.BackgroundColor3 = Color3.fromRGB(20, 140, 70)
+					else
+						v13.Text = "💰 AutoSell  [ OFF ]"
+						v13.BackgroundColor3 = Color3.fromRGB(180, 120, 20)
+						flag10 = false
+					end
+				end
+
+				if type(arg.webhookFishSelected) == "table" then
+					for k, v22 in pairs(arg.webhookFishSelected) do
+						if tbl12[k] ~= nil then
+							tbl12[k] = v22 == true
+						end
+					end
+
+					for k, v22 in pairs(tbl11) do
+						if v22 and v22.Parent then
+							if tbl12[k] then
+								v22.BackgroundColor3 = tbl.GreenDim
+								v22.Text = "  ✅  " .. k
+								v22.TextColor3 = tbl.Green
+							else
+								v22.BackgroundColor3 = tbl.PanelLight
+								v22.Text = "  ⬜  " .. k
+								v22.TextColor3 = tbl.SubText
+							end
+						end
+					end
+				end
+
+				if type(arg.webhookURL) == "string" then
+					text = arg.webhookURL
+
+					if v17 then
+						v17.Text = text
+					end
+				end
+
+				flag14 = arg.webhookAutoNotify == true
+
+				if v18 then
+					if flag14 then
+						v18.Text = "🔔 إرسال تلقائي  [ ON ]"
+						v18.BackgroundColor3 = Color3.fromRGB(20, 130, 70)
+					else
+						v18.Text = "🔔 إرسال تلقائي  [ OFF ]"
+						v18.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+					end
+				end
+
+				if type(arg.scale) == "number" and v20 then
+					v20(arg.scale)
+				elseif type(arg.scale) == "number" and uiScale then
+					uiScale.Scale = math.clamp(arg.scale, 0.65, 1)
+				end
+
+				if arg.autoFarmActive == true then
+					if not flag6 then
+						fn27()
+					end
+
+					if v6 then
+						v6.Text = "Auto Farm  [ ON ]"
+						v6.BackgroundColor3 = Color3.fromRGB(20, 140, 70)
+					end
+				else
+					if flag6 then
+						fn28()
+					end
+
+					if v6 then
+						v6.Text = "Auto Farm  [ OFF ]"
+						v6.BackgroundColor3 = Color3.fromRGB(210, 105, 0)
+					end
+				end
+			end
+
+			local function fn42()
+				tbl9 = {}
+
+				if isfile and readfile and isfile("RXZBlockSpin_Configs.json") then
+					local ok, result = pcall(function()
+						return HttpService:JSONDecode(readfile("RXZBlockSpin_Configs.json"))
+					end)
+
+					if ok and type(result) == "table" then
+						tbl9 = result
+					end
+				end
+			end
+
+			local function fn43()
+				if writefile then
+					pcall(function()
+						writefile("RXZBlockSpin_Configs.json", HttpService:JSONEncode(tbl9))
+					end)
+				end
+			end
+
+			local fn44 = nil
+
+			fn44 = function()
+				for _, child in ipairs(ScrollingFrame2:GetChildren()) do
+					if child:IsA("Frame") then
+						child:Destroy()
+					end
+				end
+
+				local tbl15 = {}
+
+				for k in pairs(tbl9) do
+					table.insert(tbl15, k)
+				end
+
+				table.sort(tbl15)
+
+				if #tbl15 == 0 then
+					fn("TextLabel", {
+						Size = UDim2.new(1, -4, 0, 36),
+						BackgroundTransparency = 1,
+						Font = gotham,
+						Text = "ما في كونفيجات محفوظة بعد...",
+						TextColor3 = tbl.SubText,
+						TextSize = 13,
+						Parent = ScrollingFrame2,
+					})
+
+					return
+				end
+
+				for _, v22 in ipairs(tbl15) do
+					local Frame9 = fn("Frame", {
+						Size = UDim2.new(1, -4, 0, 42),
+						BackgroundColor3 = tbl.PanelLight,
+						BorderSizePixel = 0,
+						Parent = ScrollingFrame2,
+					})
+
+					fn("UICorner", { CornerRadius = UDim.new(0, 8), Parent = Frame9 })
+
+					fn("TextLabel", {
+						Size = UDim2.new(1, -140, 1, 0),
+						Position = UDim2.fromOffset(10, 0),
+						BackgroundTransparency = 1,
+						Font = gothamMedium,
+						Text = v22,
+						TextColor3 = tbl.Text,
+						TextSize = 14,
+						TextXAlignment = Enum.TextXAlignment.Left,
+						Parent = Frame9,
+					})
+
+					local TextButton2 = fn("TextButton", {
+						Size = UDim2.fromOffset(55, 28),
+						Position = UDim2.new(1, -120, 0.5, 0),
+						AnchorPoint = Vector2.new(0, 0.5),
+						BackgroundColor3 = tbl.Blue,
+						AutoButtonColor = false,
+						Font = gothamMedium,
+						Text = "Load",
+						TextColor3 = tbl.Text,
+						TextSize = 12,
+						Parent = Frame9,
+					})
+
+					fn("UICorner", { CornerRadius = UDim.new(0, 6), Parent = TextButton2 })
+
+					local TextButton3 = fn("TextButton", {
+						Size = UDim2.fromOffset(55, 28),
+						Position = UDim2.new(1, -58, 0.5, 0),
+						AnchorPoint = Vector2.new(0, 0.5),
+						BackgroundColor3 = Color3.fromRGB(180, 40, 40),
+						AutoButtonColor = false,
+						Font = gothamMedium,
+						Text = "Delete",
+						TextColor3 = tbl.Text,
+						TextSize = 12,
+						Parent = Frame9,
+					})
+
+					fn("UICorner", { CornerRadius = UDim.new(0, 6), Parent = TextButton3 })
+
+					TextButton2.MouseButton1Click:Connect(function()
+						local v23 = tbl9[v22]
+
+						if v23 then
+							fn41(v23)
+							fn5("✅ تم تحميل: " .. v22, "success")
+						end
+					end)
+
+					TextButton3.MouseButton1Click:Connect(function()
+						tbl9[v22] = nil
+						fn43()
+						fn44()
+						fn5("🗑️ تم حذف: " .. v22, "error")
+					end)
+				end
+			end
+
+			fn42()
+			fn44()
+
+			TextButton.MouseButton1Click:Connect(function()
+				local text2 = TextBox.Text
+				if not text2 or #text2 < 1 then
+					fn5("❌ اكتب اسم للكونفيغ أولاً", "error")
+					return
+				end
+				local str3 = text2:gsub("^%s+", ""):gsub("%s+$", "")
+				if #str3 < 1 then
+					fn5("❌ اسم غير صالح", "error")
+					return
+				end
+				tbl9[str3] = fn40()
+				fn43()
+				fn44()
+				TextBox.Text = ""
+				fn5("💾 تم الحفظ: " .. str3, "success")
+			end)
+		end
+	end
+
+	fn39()
+	fn31("Info")
+	local flag15 = false
+	local v22 = fn7(false)
+
+	v.MouseButton1Click:Connect(function()
+		flag15 = not flag15
+
+		if flag15 then
+			fn2(Frame3, TweenInfo.new(0.3, Enum.EasingStyle.Quad), { Size = UDim2.fromOffset(v22.X.Offset, 42) })
+			v.Text = "+"
+		else
+			local tbl15 = { Size = v22 }
+			fn2(Frame3, TweenInfo.new(0.3, Enum.EasingStyle.Quad), tbl15)
+			v.Text = "—"
+		end
+	end)
+
+	v2.MouseButton1Click:Connect(function()
+		flag6 = false
+		flag9 = false
+		autoBuyBaitEnabled = false
+		flag3 = false
+		flag11 = false
+		flag4 = false
+		flag7 = false
+		flag14 = false
+
+		if thread then
+			pcall(function()
+				task.cancel(thread)
+			end)
+
+			thread = nil
+		end
+
+		fn2(Frame3, TweenInfo.new(0.3), { Size = UDim2.fromOffset(Frame3.AbsoluteSize.X, 0) })
+		task.wait(0.3)
+		screenGui:Destroy()
+		getgenv().RXZBlockSpin_Loaded = false
+	end)
+
+	local function fn40(arg)
+		flag = arg
+		fn2(Frame2, TweenInfo.new(0.3), { Size = UDim2.fromOffset(300, 0) })
+		fn2(Frame, TweenInfo.new(0.35), { BackgroundTransparency = 1 })
+		task.wait(0.35)
+		Frame:Destroy()
+		local n6 = arg and 95 or 140
+		Frame4.Size = UDim2.new(0, n6, 1, -42)
+		Frame4.Position = UDim2.new(1, -n6, 0, 42)
+		Frame8.Size = UDim2.new(1, -n6, 1, -42)
+		Frame8.Position = UDim2.new(0, 0, 0, 42)
+
+		if arg then
+			Frame5.Size = UDim2.fromOffset(78, 18)
+			Frame5.Position = UDim2.fromOffset(8, 18)
+			TextLabel3.TextSize = 11
+		end
+
+		Frame3.Visible = true
+		Frame3.Size = UDim2.fromOffset(0, 0)
+		v22 = fn7(arg)
+		local tbl15 = { Size = v22 }
+		fn2(Frame3, TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out), tbl15)
+	end
+
+	pc.MouseButton1Click:Connect(function()
+		fn40(false)
+	end)
+
+	Mobile.MouseButton1Click:Connect(function()
+		fn40(true)
+	end)
+
+	task.spawn(function()
+		fn20()
+		fn19()
+
+		if tbl2.loaded then
+			tbl2.loaded()
+		end
+	end)
+end
+
